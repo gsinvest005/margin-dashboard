@@ -691,20 +691,11 @@
   }
 
   /* One-step typography scale. SVG chart typography and geometry stay unchanged. */
-  .brand-mark { font-size:14px; }
-  .brand h1 { font-size:17px; }
+  .brand-mark { width:36px; height:36px; font-size:16px; }
+  .brand h1 { font-size:22px; font-weight:700; letter-spacing:.02em; }
   .updated { display:grid; gap:1px; min-width:0; white-space:normal; font-size:12px; line-height:1.35; }
-  .updated-date { white-space:nowrap; }
+  .updated-creator, .updated-date { color:var(--faint); font-size:12px; white-space:nowrap; }
   .updated-note { color:var(--muted); font-family:var(--sans); font-size:11px; overflow-wrap:anywhere; }
-  .refresh-controls { display:flex; align-items:center; flex-wrap:wrap; gap:7px 10px; margin-top:7px; font-family:var(--sans); }
-  .refresh-button { min-height:34px; padding:6px 12px; border:1px solid rgba(180,83,9,.38); border-radius:8px; background:rgba(180,83,9,.09); color:var(--amber); font-size:12px; font-weight:700; line-height:1.35; cursor:pointer; transition:background .18s ease, border-color .18s ease, box-shadow .18s ease, opacity .18s ease; }
-  .refresh-button:hover { border-color:rgba(180,83,9,.68); background:rgba(180,83,9,.15); }
-  .refresh-button:focus-visible { outline:0; border-color:var(--amber); box-shadow:0 0 0 3px rgba(180,83,9,.14); }
-  .refresh-button:disabled { cursor:wait; opacity:.72; }
-  .refresh-status { max-width:310px; color:var(--muted); font-size:11px; line-height:1.4; overflow-wrap:anywhere; }
-  .refresh-status:empty { display:none; }
-  .refresh-status[data-state="error"] { color:#B42318; font-weight:650; }
-  .refresh-status[data-state="success"] { color:#067647; font-weight:650; }
   .ranking-toolbar { position:relative; z-index:3; padding:0; overflow:visible; border:0; border-radius:0; background:transparent; box-shadow:none; backdrop-filter:none; }
   .filter-sort-panel { position:relative; margin:14px 0 18px; overflow:visible; border:0; border-radius:0; background:transparent; font-size:14px; }
   .filter-toolbar-row { display:flex; align-items:center; flex-wrap:wrap; gap:6px; }
@@ -731,6 +722,9 @@
   .filter-popover[hidden] { display:none; }
   .filter-dropdown.is-align-end .filter-popover { right:0; left:auto; }
   .filter-dropdown.is-above .filter-popover { top:auto; bottom:calc(100% + 7px); }
+  .filter-sheet-backdrop { display:none; }
+  .filter-sheet-backdrop[hidden] { display:none; }
+  .filter-sheet-close { display:none; }
   .filter-popover-title { margin:0 0 9px; color:var(--ink); font-size:14px; font-weight:850; }
   .filter-chip-list, .threshold-quick { display:flex; align-items:center; flex-wrap:wrap; gap:7px; }
   .filter-check-chip { position:relative; display:inline-flex; }
@@ -879,38 +873,122 @@
   .cockpit-scenario-result strong { font-size:30px; }
   .cockpit-foot { font-size:11px; }
 
-  @media (max-width:700px) {
-    .updated { flex:1 1 100%; max-width:100%; }
-    .refresh-controls { align-items:flex-start; }
-    .refresh-status { flex:1 1 190px; max-width:none; }
-    .filter-toolbar-row { position:relative; }
-    .filter-dropdown { position:static; flex:1 1 132px; }
-    .filter-trigger-wrap { width:100%; }
-    .filter-dropdown-trigger { justify-content:space-between; width:100%; }
-    .filter-popover, .filter-dropdown.is-align-end .filter-popover { right:0; left:0; width:auto; min-width:0; max-width:none; }
+  @media (max-width:768px) {
+    body { overflow-x:clip; }
+    body.filter-sheet-open { overflow:hidden; }
+    .shell { width:100%; padding:16px 12px 28px; overflow:visible; }
+    .topbar { display:grid; grid-template-columns:minmax(0,1fr); align-items:stretch; gap:12px; padding-bottom:16px; }
+    .brand { min-width:0; }
+    .brand-mark { width:36px; height:36px; flex:0 0 36px; }
+    .brand h1 { font-size:22px; }
+    .updated { width:100%; padding:0; border-left:0; }
+    .updated-creator, .updated-date { white-space:normal; }
+    .search-wrap { order:initial; width:100%; margin:0; }
+    .search-wrap input, .ranking-search-wrap input { min-height:44px; }
+    .stock-strip { margin:0 -12px; padding:16px 12px; grid-auto-columns:minmax(280px,82vw); overscroll-behavior-inline:contain; scroll-snap-type:x proximity; -webkit-overflow-scrolling:touch; }
+    .stock-card { scroll-snap-align:start; }
+    .kpi-strip { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-bottom:16px; }
+    .kpi-tile { min-height:108px; padding:14px; }
+    .kpi-value { font-size:26px; }
+    .kpi-tile:last-child .kpi-value { font-size:22px; }
+    .kpi-tile.kpi-overview .kpi-label { font-size:13px; }
+    .kpi-tile.kpi-overview .kpi-value { margin-top:10px; font-size:34px; }
+    .main-grid { grid-template-columns:minmax(0,1fr); gap:12px; }
+    .charts-panel, .snapshot, .histogram-panel { min-width:0; padding:16px; }
+    .panel-head, .ranking-head { align-items:flex-start; flex-direction:column; }
+    .range-tabs, .ranking-tools { justify-content:flex-start; }
+    .range-tab, .chip, .export, .pager button, .scenario-quick, .scenario-shortcut, .detail-panel .scenario-ladder-row,
+    .filter-toolbar-row .sort-direction, .sort-select, .sort-direction, .filter-number-row .advanced-number-input { min-height:44px; }
+    .scenario-range { height:44px; }
+    .chart { min-height:144px; touch-action:pan-y; }
+    .chart-tooltip, .histogram-tooltip { max-width:calc(100vw - 16px); max-height:calc(100vh - 16px); overflow:auto; }
+    .ranking-toolbar { min-width:0; }
+    .filter-sort-panel { min-width:0; margin-block:12px 16px; }
+    .filter-toolbar-row { position:relative; flex-wrap:nowrap; max-width:100%; padding:3px 0 8px; overflow-x:auto; overscroll-behavior-inline:contain; scrollbar-width:thin; -webkit-overflow-scrolling:touch; }
+    .filter-toolbar-label, .filter-dropdown, .advanced-filter-preset, .filter-toolbar-count { flex:0 0 auto; }
+    .filter-dropdowns { display:contents; }
+    .filter-trigger-wrap { width:auto; }
+    .filter-sort-select, .filter-dropdown-trigger, .filter-action, .threshold-quick button, .filter-group-clear, .advanced-filter-preset, .advanced-filter-clear, .filter-check-chip > span, .filter-summary-remove { min-height:44px; }
+    .filter-dropdown-trigger { height:44px; }
+    .filter-trigger-clear { right:28px; width:44px; height:44px; }
     .filter-toolbar-count { margin-left:0; }
-    .kpi-tile { min-height:124px; }
-    .kpi-value { font-size:29px; }
-    .kpi-tile:last-child .kpi-value { font-size:26px; }
-    .kpi-tile.kpi-overview .kpi-label { font-size:14px; }
-    .kpi-tile.kpi-overview .kpi-value { font-size:39px; }
+    .filter-sheet-backdrop { position:fixed; inset:0; z-index:100; display:block; background:rgba(26,26,26,.42); backdrop-filter:blur(1px); animation:filter-backdrop-in .18s ease both; }
+    .filter-popover, .filter-dropdown.is-align-end .filter-popover, .filter-dropdown.is-above .filter-popover {
+      position:fixed; inset:auto 0 0; z-index:101; width:100%; min-width:0; max-width:none; max-height:min(78vh,620px);
+      padding:18px 16px max(18px,env(safe-area-inset-bottom)); overflow-y:auto; overscroll-behavior:contain;
+      border:1px solid var(--line); border-bottom:0; border-radius:18px 18px 0 0; background:var(--surface);
+      box-shadow:0 -12px 40px rgba(23,34,23,.18); animation:bottom-sheet-in .18s ease both;
+    }
+    .filter-popover-title { min-height:44px; margin:0 44px 10px 0; }
+    .filter-sheet-close { position:absolute; top:8px; right:10px; z-index:2; display:grid; place-items:center; width:44px; height:44px; padding:0; border:0; border-radius:999px; background:var(--surface-2); color:var(--muted); font:800 23px/1 var(--sans); cursor:pointer; transition:background .18s ease,color .18s ease; }
+    .filter-sheet-close:hover, .filter-sheet-close:focus-visible { background:var(--amber-bg); color:var(--amber); outline:2px solid rgba(180,83,9,.28); outline-offset:1px; }
+    .ranking-workspace { grid-template-columns:minmax(0,1fr); gap:12px; min-height:0; }
+    .ranking-list { max-height:420px; }
+    .detail-panel { min-width:0; padding:0; }
+    .detail-grid, .detail-grid.cockpit-body { grid-template-columns:minmax(0,1fr); gap:7px; padding:7px; }
+    .gauge-wrap, .gauge-wrap.gauge-bay { min-height:350px; padding:28px 8px 16px; }
+    .gauge { width:min(100%,300px); margin-inline:auto; }
+    .gauge-halo, .gauge-wrap.gauge-bay::before { width:270px; height:270px; }
+    .cockpit-support-grid { grid-template-columns:minmax(0,1fr); }
+    .cockpit-support-grid .metric-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .detail-panel .stock-scenario { margin-inline:16px; }
+    .cockpit-foot { padding-inline:16px; }
+    .scenario-deck { display:block; padding:16px; }
+    .scenario-control { margin-top:16px; }
+    .scenario-shortcuts { justify-content:flex-start; margin-top:12px; }
+    .scenario-compare { grid-template-columns:minmax(0,1fr); }
+    .stock-scenario-head { display:block; }
+    .stock-scenario-note { margin-top:6px; text-align:left; }
+    #histogram { width:100%; height:250px; touch-action:pan-y; }
+    @keyframes filter-backdrop-in { from { opacity:0; } to { opacity:1; } }
+    @keyframes bottom-sheet-in { from { transform:translateY(100%); } to { transform:translateY(0); } }
   }
-  @media (max-width:520px) {
-    .primary-signal { min-height:156px; }
-    .cockpit-scenario-result { min-height:122px; }
+  @media (max-width:480px) {
+    .shell { padding:12px 10px 24px; }
+    .topbar { gap:10px; }
+    .brand { gap:8px; }
+    .brand-mark { width:34px; height:34px; flex-basis:34px; font-size:15px; }
+    .brand h1 { font-size:22px; }
+    .updated { font-size:11px; }
+    .updated-creator, .updated-date, .updated-note { font-size:11px; }
+    .stock-strip { margin-inline:-10px; padding-inline:10px; grid-auto-columns:minmax(264px,88vw); }
+    .kpi-strip { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+    .kpi-tile { min-height:98px; padding:12px 10px; }
+    .kpi-label, .kpi-context { font-size:10px; }
+    .kpi-value { font-size:22px; }
+    .kpi-tile:last-child .kpi-value { font-size:18px; }
+    .kpi-tile.kpi-overview .kpi-label { font-size:12px; }
+    .kpi-tile.kpi-overview .kpi-value { font-size:29px; }
+    .charts-panel, .snapshot, .histogram-panel { padding:13px; }
+    .panel-head { gap:10px; }
+    .range-tabs { width:100%; }
+    .range-tab { flex:1 1 44px; padding-inline:6px; }
+    .cockpit-signal-bay, .cockpit-scenario-bay { grid-template-columns:minmax(0,1fr); }
+    .primary-signal { min-height:150px; padding:16px; }
+    .primary-signal + .primary-signal { border-top:1px solid var(--line); border-left:0; }
+    .cockpit-scenario-result { min-height:116px; }
+    .cockpit-scenario-bay .scenario-shortcuts { grid-column:auto; }
+    .cockpit-support-grid .metric-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .detail-title { font-size:24px; }
+    .gauge-wrap, .gauge-wrap.gauge-bay { min-height:320px; }
+    .gauge { width:min(100%,270px); }
+    .gauge-halo, .gauge-wrap.gauge-bay::before { width:245px; height:245px; }
+    .ranking-row { grid-template-columns:28px minmax(0,1fr) auto; padding-inline:7px; }
+    .ranking-name { max-width:108px; }
+    .cockpit-foot { display:block; }
+    .cockpit-foot span { display:block; margin-top:5px; }
+    #histogram { height:230px; }
   }
 </style>
 <body>
+  <div id="filterSheetBackdrop" class="filter-sheet-backdrop" aria-hidden="true" hidden></div>
   <main class="shell" aria-label="融資維持率互動儀表板">
     <header class="topbar">
       <div class="brand"><div class="brand-mark" aria-hidden="true">M</div><h1>融資維持率儀表板</h1></div>
       <div class="updated">
+        <div class="updated-creator">創作者 : 創世紀國際投資公司-程式部門-005</div>
         <div class="updated-date">資料更新　<span id="updatedDate">—</span></div>
-        <div class="updated-note">融資餘額於收盤後約 21:00 公布・執行更新後即為最新</div>
-        <div class="refresh-controls">
-          <button id="refreshData" class="refresh-button" type="button">⟳ 更新資料</button>
-          <span id="refreshStatus" class="refresh-status" role="status" aria-live="polite"></span>
-        </div>
+        <div class="updated-note">融資餘額於收盤後約 21:00 公布</div>
       </div>
       <label class="search-wrap" aria-label="搜尋股票代號或名稱">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"></circle><path d="m15 15 5 5"></path></svg>
@@ -1831,18 +1909,34 @@
         add('#maintCross', charts.maint, charts.maint.points, 'cross-dot-maint');
         return idx;
       }
+      function eventClientPoint(event) {
+        return event.touches?.[0] || event.changedTouches?.[0] || event;
+      }
+      function positionTooltipWithinViewport(tip, container, clientX, clientY, offsetX = 12, offsetY = -18) {
+        const containerRect = container.getBoundingClientRect();
+        const width = tip.offsetWidth || 176; const height = tip.offsetHeight || 80; const edge = 8;
+        const viewportLeft = Math.max(edge, Math.min(window.innerWidth - width - edge, clientX + offsetX));
+        const viewportTop = Math.max(edge, Math.min(window.innerHeight - height - edge, clientY + offsetY));
+        tip.style.left = `${viewportLeft - containerRect.left}px`;
+        tip.style.top = `${viewportTop - containerRect.top}px`;
+      }
       function bindChartHover(row, win, charts) {
         const stack = $('#chartStack'); const tip = $('#chartTooltip');
         const handle = (event) => {
-          const svg = event.currentTarget; const rect = svg.getBoundingClientRect();
-          const ratio = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+          const point = eventClientPoint(event); const svg = event.currentTarget; const rect = svg.getBoundingClientRect();
+          const ratio = Math.max(0, Math.min(1, (point.clientX - rect.left) / rect.width));
           const pos = Math.round(ratio * (win.indices.length - 1)); const idx = renderCrosshair(row, win, charts, pos);
           tip.innerHTML = tooltipHTML(row, idx); tip.style.display = 'block';
-          const stackRect = stack.getBoundingClientRect(); const tipWidth = 176;
-          tip.style.left = `${Math.max(2, Math.min(stackRect.width - tipWidth - 2, event.clientX - stackRect.left + 12))}px`;
-          tip.style.top = `${Math.max(26, event.clientY - stackRect.top - 18)}px`;
+          positionTooltipWithinViewport(tip, stack, point.clientX, point.clientY);
         };
-        ['#priceChart','#maintChart'].forEach((id) => { const chart = $(id); chart.onmousemove = handle; chart.onmouseenter = handle; chart.onmouseleave = () => { tip.style.display = 'none'; $('#priceCross').innerHTML = ''; $('#maintCross').innerHTML = ''; }; });
+        const hide = () => { tip.style.display = 'none'; $('#priceCross').innerHTML = ''; $('#maintCross').innerHTML = ''; };
+        ['#priceChart','#maintChart'].forEach((id) => {
+          const chart = $(id);
+          chart.onmousemove = handle; chart.onmouseenter = handle; chart.onmouseleave = hide;
+          chart.ontouchstart = (event) => { event.preventDefault(); handle(event); };
+          chart.ontouchmove = (event) => { event.preventDefault(); handle(event); };
+          chart.ontouchend = hide; chart.ontouchcancel = hide;
+        });
       }
       function renderCharts(row) {
         ensureSeries(row);
@@ -2434,13 +2528,19 @@
       }
       function bindHistogramHover(bins) {
         const svg = $('#histogram'); const wrap = $('#histogramWrap'); const tip = $('#histogramTooltip'); const hide = () => { tip.style.display = 'none'; };
-        svg.onmouseleave = hide; svg.onmousemove = (event) => {
-          const bar = event.target.closest?.('rect[data-bin]'); const bin = bar ? bins[Number(bar.dataset.bin)] : null;
+        const handle = (event) => {
+          const point = eventClientPoint(event);
+          const target = event.touches ? document.elementFromPoint(point.clientX, point.clientY) : event.target;
+          const bar = target?.closest?.('rect[data-bin]'); const bin = bar ? bins[Number(bar.dataset.bin)] : null;
           if (!bin) { hide(); return; }
           const names = bin.rows.length ? bin.rows.map((row) => `${row.stock.symbol} ${text(row.stock.name)}`).join('、') : '此區間目前沒有股票';
           tip.innerHTML = `<strong>${fmtCompact(bin.from)}%–${fmtCompact(bin.to)}%：${bin.rows.length} 檔</strong><span>${escapeHtml(names)}</span>`; tip.style.display = 'block';
-          const rect = wrap.getBoundingClientRect(); const width = 280; tip.style.left = `${Math.max(2, Math.min(rect.width - width - 2, event.clientX - rect.left + 12))}px`; tip.style.top = `${Math.max(4, event.clientY - rect.top - 64)}px`;
+          positionTooltipWithinViewport(tip, wrap, point.clientX, point.clientY, 12, -64);
         };
+        svg.onmouseleave = hide; svg.onmousemove = handle;
+        svg.ontouchstart = (event) => { event.preventDefault(); handle(event); };
+        svg.ontouchmove = (event) => { event.preventDefault(); handle(event); };
+        svg.ontouchend = hide; svg.ontouchcancel = hide;
       }
       function renderAll() {
         renderScenarioControl(); renderCards(); renderTable();
@@ -2480,56 +2580,16 @@
         const lines = rows.map((r) => { const projected = scenarioMaint(r.maint); return [r.stock.symbol,r.stock.name,marketLabel(r.stock.market),r.date,r.turnover,r.volume,Number.isFinite(r.volume) ? r.volume / 1000 : null,kbarInfo(r.kbar).label,r.close,r.daily,r.cost,r.spread,r.spreadPct,r.maint,r.maint5,r.marginUsage,r.sma20DeviationPct,r.sma60DeviationPct,r.risk.label,app.scenarioPct,projected,riskInfo(projected).label].map(esc).join(','); });
         const blob = new Blob([`\uFEFF${header.map(esc).join(',')}\n${lines.join('\n')}`], { type:'text/csv;charset=utf-8' }); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`融資維持率排行_${DATA?.meta?.updated || 'data'}.csv`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url),0);
       }
-      const STATIC_REFRESH_GUIDANCE = '請用「啟動融資儀表板.bat」開啟才能線上更新。';
-      function setRefreshStatus(message, state = '') {
-        const status = $('#refreshStatus');
-        status.textContent = message;
-        status.dataset.state = state;
-      }
-      async function refreshDashboard() {
-        const button = $('#refreshData');
-        const idleLabel = '⟳ 更新資料';
-        const localService = location.protocol === 'http:' && (location.hostname === '127.0.0.1' || location.hostname === 'localhost');
-        button.disabled = true;
-        button.setAttribute('aria-busy', 'true');
-        button.textContent = '更新中…（約需 1 分鐘，勿關閉）';
-        setRefreshStatus('正在重抓最新融資資料並重生儀表板…');
-
-        if (!localService) {
-          setRefreshStatus(STATIC_REFRESH_GUIDANCE, 'error');
-          button.disabled = false;
-          button.removeAttribute('aria-busy');
-          button.textContent = idleLabel;
-          return;
-        }
-
-        try {
-          const response = await fetch('/api/refresh', {
-            method:'POST',
-            headers:{ 'Accept':'application/json' },
-            cache:'no-store'
-          });
-          let payload = null;
-          try {
-            payload = await response.json();
-          } catch (_error) {
-            // A static server commonly returns an HTML 404 page instead of JSON.
-          }
-          if (response.status === 404 || !payload) throw new TypeError('refresh endpoint unavailable');
-          if (!response.ok || payload.ok !== true) throw new Error(payload.message || `更新失敗（HTTP ${response.status}）。`);
-          setRefreshStatus(payload.message || '資料更新完成，正在重新載入…', 'success');
-          button.textContent = '更新完成，正在重載…';
-          location.reload();
-        } catch (error) {
-          const unavailable = error instanceof TypeError;
-          setRefreshStatus(unavailable ? STATIC_REFRESH_GUIDANCE : (error.message || '資料更新失敗，請稍後再試。'), 'error');
-          button.disabled = false;
-          button.removeAttribute('aria-busy');
-          button.textContent = idleLabel;
-        }
-      }
       function openFilterTrigger() {
         return $('.filter-dropdown-trigger[aria-expanded="true"]');
+      }
+      function isMobileFilterSheet() {
+        return window.matchMedia('(max-width: 768px)').matches;
+      }
+      function setFilterSheetBackdrop(open) {
+        const backdrop = $('#filterSheetBackdrop');
+        backdrop.hidden = !open;
+        document.body.classList.toggle('filter-sheet-open', open);
       }
       function closeFilterDropdown(restoreFocus = false) {
         const trigger = openFilterTrigger();
@@ -2542,6 +2602,7 @@
           panel.style.removeProperty('max-height');
         }
         dropdown?.classList.remove('is-align-end', 'is-above');
+        setFilterSheetBackdrop(false);
         if (restoreFocus) trigger.focus();
       }
       function positionFilterDropdown(trigger) {
@@ -2550,7 +2611,12 @@
         if (!dropdown || !panel || panel.hidden) return;
         dropdown.classList.remove('is-align-end', 'is-above');
         panel.style.removeProperty('max-height');
-        if (window.innerWidth > 700 && panel.getBoundingClientRect().right > window.innerWidth - 14) {
+        if (isMobileFilterSheet()) {
+          setFilterSheetBackdrop(true);
+          return;
+        }
+        setFilterSheetBackdrop(false);
+        if (panel.getBoundingClientRect().right > window.innerWidth - 14) {
           dropdown.classList.add('is-align-end');
         }
         const triggerRect = trigger.getBoundingClientRect();
@@ -2571,6 +2637,15 @@
         if (focusContent) panel.querySelector('input:not(:disabled), button:not(:disabled), select:not(:disabled), [tabindex]:not([tabindex="-1"])')?.focus();
       }
       function bindFilterDropdowns() {
+        $$('.filter-popover').forEach((panel) => {
+          const closeButton = document.createElement('button');
+          closeButton.className = 'filter-sheet-close';
+          closeButton.type = 'button';
+          closeButton.setAttribute('aria-label', '關閉篩選面板');
+          closeButton.textContent = '×';
+          closeButton.addEventListener('click', () => closeFilterDropdown(true));
+          panel.prepend(closeButton);
+        });
         $$('.filter-dropdown-trigger').forEach((trigger) => {
           trigger.addEventListener('click', (event) => {
             if (trigger.getAttribute('aria-expanded') === 'true') closeFilterDropdown();
@@ -2591,6 +2666,7 @@
           event.preventDefault();
           closeFilterDropdown(true);
         });
+        $('#filterSheetBackdrop').addEventListener('click', () => closeFilterDropdown(true));
         window.addEventListener('resize', () => {
           const trigger = openFilterTrigger();
           if (trigger) positionFilterDropdown(trigger);
@@ -2598,7 +2674,6 @@
       }
       function init() {
         $('#footerDataDate').textContent = fmtDate(DATA?.meta?.updated);
-        $('#refreshData').addEventListener('click', refreshDashboard);
         if (!app.stocks.length || !app.dates.length) { document.querySelector('.shell').innerHTML = '<section class="loading"><p><strong>尚無可顯示資料</strong><br>請先執行 generate.py 產生儀表板資料。</p></section>'; return; }
         app.marketMaintDates = latestMaintDatesByMarket(); app.rows = app.stocks.map(metricFor).map(withMovingAverages); app.marginUniverse = app.rows.filter((row) => Number.isFinite(row.maint) && row.maint > 0); app.selected = app.rows[0]?.stock.symbol || null; $('#updatedDate').textContent = marketDataDateText();
         positionGaugeScaleGeometry();
