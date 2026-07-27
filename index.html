@@ -692,10 +692,14 @@
 
   /* One-step typography scale. SVG chart typography and geometry stay unchanged. */
   .brand-mark { width:36px; height:36px; font-size:16px; }
-  .brand h1 { font-size:22px; font-weight:700; letter-spacing:.02em; }
-  .updated { display:grid; gap:1px; min-width:0; white-space:normal; font-size:12px; line-height:1.35; }
-  .updated-creator, .updated-date { color:var(--faint); font-size:12px; white-space:nowrap; }
-  .updated-note { color:var(--muted); font-family:var(--sans); font-size:11px; overflow-wrap:anywhere; }
+  .topbar { align-items:flex-start; flex-wrap:wrap; }
+  .brand { flex:0 0 auto; }
+  .brand h1 { font-size:28px; font-weight:700; letter-spacing:.02em; }
+  .updated { display:grid; flex:1 1 340px; gap:2px; min-width:0; white-space:normal; font-size:18px; line-height:1.35; }
+  .updated-creator, .updated-date { color:var(--ink); font-size:18px; font-weight:700; white-space:nowrap; }
+  .updated-creator { font-family:var(--sans); }
+  .updated-date { font-family:var(--mono); }
+  .updated-note { color:var(--muted); font-family:var(--sans); font-size:14px; font-weight:500; overflow-wrap:anywhere; }
   .ranking-toolbar { position:relative; z-index:3; padding:0; overflow:visible; border:0; border-radius:0; background:transparent; box-shadow:none; backdrop-filter:none; }
   .filter-sort-panel { position:relative; margin:14px 0 18px; overflow:visible; border:0; border-radius:0; background:transparent; font-size:14px; }
   .filter-toolbar-row { display:flex; align-items:center; flex-wrap:wrap; gap:6px; }
@@ -739,8 +743,6 @@
   .risk-filter-chip.risk-warn { --filter-chip-color:var(--amber); --filter-chip-bg:rgba(180,83,9,.10); }
   .risk-filter-chip.risk-normal { --filter-chip-color:var(--normal); --filter-chip-bg:rgba(53,56,205,.08); }
   .risk-filter-chip.risk-safe { --filter-chip-color:var(--safe); --filter-chip-bg:rgba(6,118,71,.10); }
-  .kbar-red { --filter-chip-color:var(--danger); --filter-chip-bg:rgba(217,45,32,.10); }
-  .kbar-black { --filter-chip-color:var(--safe); --filter-chip-bg:rgba(6,118,71,.10); }
   .filter-inline-enable { margin-bottom:2px; }
   .filter-number-row { display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:8px; color:var(--muted); font-size:14px; }
   .filter-number-row .advanced-number-input { width:88px; height:36px; border-radius:4px; font-size:14px; }
@@ -751,7 +753,14 @@
   .filter-action:hover, .filter-action:focus-visible, .threshold-quick button:hover, .threshold-quick button:focus-visible { border-color:var(--amber); color:var(--amber); outline:0; }
   .threshold-quick button.is-active { border-color:var(--amber); background:rgba(180,83,9,.10); color:var(--amber); box-shadow:inset 0 0 0 1px rgba(180,83,9,.08); }
   #applyDoubleBreak[aria-pressed="true"] { border-color:var(--amber); background:var(--amber); color:#fff; box-shadow:0 0 0 3px rgba(180,83,9,.12); }
-  .filter-popover-footer { display:flex; justify-content:flex-end; margin-top:11px; padding-top:9px; border-top:1px solid var(--line); }
+  .filter-popover-footer { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-top:11px; padding-top:9px; border-top:1px solid var(--line); }
+  .filter-sort-shortcuts { display:flex; flex:1 1 190px; align-items:center; flex-wrap:wrap; gap:6px; }
+  .filter-sort-shortcuts-label { color:var(--faint); font-size:12px; font-weight:850; letter-spacing:.04em; }
+  .filter-sort-shortcut { box-sizing:border-box; min-height:36px; padding:6px 9px; border:1px solid var(--line); border-radius:4px; background:var(--surface); color:var(--muted); font-size:12px; font-weight:800; line-height:1.25; cursor:pointer; transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,opacity .18s ease; }
+  .filter-sort-shortcut:not(:disabled):hover, .filter-sort-shortcut:not(:disabled):focus-visible { border-color:var(--amber); color:var(--amber); outline:0; box-shadow:0 0 0 3px rgba(180,83,9,.10); }
+  .filter-sort-shortcut.is-active, .filter-sort-shortcut[aria-pressed="true"] { border-color:var(--amber); background:var(--amber); color:#fff; box-shadow:0 0 0 2px rgba(180,83,9,.12); }
+  .filter-sort-shortcut:disabled { cursor:not-allowed; opacity:.52; }
+  .filter-sort-shortcut.is-active:disabled { opacity:.78; }
   .filter-group-clear { min-height:32px; padding:4px 8px; border:1px solid transparent; border-radius:4px; background:transparent; color:var(--muted); font-size:12px; font-weight:800; cursor:pointer; transition:background .18s ease,border-color .18s ease,color .18s ease; }
   .filter-group-clear:hover, .filter-group-clear:focus-visible { border-color:var(--amber); background:rgba(180,83,9,.06); color:var(--amber); outline:0; }
   .advanced-filter-preset, .advanced-filter-clear { min-height:36px; padding:4px 6px; border:0; background:transparent; color:var(--amber); font-size:14px; font-weight:800; line-height:1.25; cursor:pointer; text-decoration:underline; text-decoration-color:transparent; text-underline-offset:4px; transition:color .18s ease,text-decoration-color .18s ease; }
@@ -880,9 +889,10 @@
     .topbar { display:grid; grid-template-columns:minmax(0,1fr); align-items:stretch; gap:12px; padding-bottom:16px; }
     .brand { min-width:0; }
     .brand-mark { width:36px; height:36px; flex:0 0 36px; }
-    .brand h1 { font-size:22px; }
+    .brand h1 { font-size:26px; }
     .updated { width:100%; padding:0; border-left:0; }
-    .updated-creator, .updated-date { white-space:normal; }
+    .updated-creator, .updated-date { font-size:17px; white-space:normal; }
+    .updated-note { font-size:13px; }
     .search-wrap { order:initial; width:100%; margin:0; }
     .search-wrap input, .ranking-search-wrap input { min-height:44px; }
     .stock-strip { margin:0 -12px; padding:16px 12px; grid-auto-columns:minmax(280px,82vw); overscroll-behavior-inline:contain; scroll-snap-type:x proximity; -webkit-overflow-scrolling:touch; }
@@ -908,7 +918,7 @@
     .filter-toolbar-label, .filter-dropdown, .advanced-filter-preset, .filter-toolbar-count { flex:0 0 auto; }
     .filter-dropdowns { display:contents; }
     .filter-trigger-wrap { width:auto; }
-    .filter-sort-select, .filter-dropdown-trigger, .filter-action, .threshold-quick button, .filter-group-clear, .advanced-filter-preset, .advanced-filter-clear, .filter-check-chip > span, .filter-summary-remove { min-height:44px; }
+    .filter-sort-select, .filter-dropdown-trigger, .filter-action, .threshold-quick button, .filter-group-clear, .filter-sort-shortcut, .advanced-filter-preset, .advanced-filter-clear, .filter-check-chip > span, .filter-summary-remove { min-height:44px; }
     .filter-dropdown-trigger { height:44px; }
     .filter-trigger-clear { right:28px; width:44px; height:44px; }
     .filter-toolbar-count { margin-left:0; }
@@ -948,9 +958,10 @@
     .topbar { gap:10px; }
     .brand { gap:8px; }
     .brand-mark { width:34px; height:34px; flex-basis:34px; font-size:15px; }
-    .brand h1 { font-size:22px; }
-    .updated { font-size:11px; }
-    .updated-creator, .updated-date, .updated-note { font-size:11px; }
+    .brand h1 { font-size:26px; }
+    .updated { font-size:17px; }
+    .updated-creator, .updated-date { font-size:17px; }
+    .updated-note { font-size:13px; }
     .stock-strip { margin-inline:-10px; padding-inline:10px; grid-auto-columns:minmax(264px,88vw); }
     .kpi-strip { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
     .kpi-tile { min-height:98px; padding:12px 10px; }
@@ -1038,7 +1049,7 @@
       <aside class="panel snapshot" aria-label="選中股票快照">
         <div class="snapshot-stock"><span id="snapshotSymbol" class="stock-code">—</span><span id="snapshotName">—</span></div>
         <section class="snapshot-section">
-          <span class="snapshot-caption">維持率＝股票現值 ÷ 欠款；數字越高越安全</span>
+          <span class="snapshot-caption">維持率・數字越高越安全</span>
           <div class="range-value"><strong id="snapshotMaint">—</strong><span id="snapshotRisk"></span></div>
           <div id="rangeTrack" class="range-track" aria-label="選中股維持率歷史區間"><i id="rangeMarker" class="range-marker"></i><i id="rangeCallTick" class="range-call-tick"><span>130% 追繳</span></i></div>
           <div class="range-ends"><span id="rangeMin">—</span><span id="rangeMax">—</span></div>
@@ -1067,15 +1078,15 @@
           <div class="filter-toolbar-row">
             <span id="filterPanelTitle" class="filter-toolbar-label">篩選與排序</span>
             <select id="sortSelect" class="filter-sort-select" aria-label="排行排序欄位">
-              <option value="maint" data-sort-key="maint" data-default-direction="1" selected>維持率低→高</option>
-              <option value="buffer130" data-sort-key="buffer130" data-default-direction="1">距130%緩衝最薄</option>
-              <option value="marginUsage" data-sort-key="marginUsage" data-default-direction="-1">融資使用率高→低</option>
-              <option value="bearishDepth" data-sort-key="bearishDepth" data-default-direction="1">跌破均線最深</option>
-              <option value="turnover" data-sort-key="turnover" data-default-direction="-1">成交值高→低</option>
-              <option value="volume" data-sort-key="volume" data-default-direction="-1">成交量高→低</option>
-              <option value="kbar" data-sort-key="kbar" data-default-direction="-1">當日K棒紅→黑</option>
-              <option value="sma20DeviationPct" data-sort-key="sma20DeviationPct" data-default-direction="1">月線偏離%低→高</option>
-              <option value="sma60DeviationPct" data-sort-key="sma60DeviationPct" data-default-direction="1">季線偏離%低→高</option>
+              <option value="maint" data-sort-key="maint" data-default-direction="1" selected>維持率</option>
+              <option value="buffer130" data-sort-key="buffer130" data-default-direction="1">距130%緩衝</option>
+              <option value="marginUsage" data-sort-key="marginUsage" data-default-direction="-1">融資使用率</option>
+              <option value="bearishDepth" data-sort-key="bearishDepth" data-default-direction="1">跌破均線深度</option>
+              <option value="turnover" data-sort-key="turnover" data-default-direction="-1">成交值</option>
+              <option value="volume" data-sort-key="volume" data-default-direction="-1">成交量</option>
+              <option value="kbar" data-sort-key="kbar" data-default-direction="-1">當日K棒</option>
+              <option value="sma20DeviationPct" data-sort-key="sma20DeviationPct" data-default-direction="1">月線偏離%</option>
+              <option value="sma60DeviationPct" data-sort-key="sma60DeviationPct" data-default-direction="1">季線偏離%</option>
               <option value="daily" data-sort-key="daily" data-default-direction="1">日漲跌%</option>
               <option value="maint5" data-sort-key="maint5" data-default-direction="1">5日變化</option>
               <option value="symbol" data-sort-key="symbol" data-default-direction="1">代號</option>
@@ -1096,7 +1107,14 @@
                     <label class="filter-check-chip risk-filter-chip risk-normal" for="riskFilterNormal"><input id="riskFilterNormal" type="checkbox" data-risk-filter="normal" aria-label="篩選正常，維持率150%到200%"><span><span aria-hidden="true">•</span>&nbsp;<span data-risk-label="normal"></span></span></label>
                     <label class="filter-check-chip risk-filter-chip risk-safe" for="riskFilterSafe"><input id="riskFilterSafe" type="checkbox" data-risk-filter="safe" aria-label="篩選安全，維持率高於200%"><span><span aria-hidden="true">◆</span>&nbsp;<span data-risk-label="safe"></span></span></label>
                   </div>
-                  <div class="filter-popover-footer"><button class="filter-group-clear" type="button" data-clear-filter-group="risk" aria-label="清除本組風險篩選">清除本組</button></div>
+                  <div class="filter-popover-footer">
+                    <div class="filter-sort-shortcuts" data-sort-shortcuts-for="risk" role="group" aria-label="風險排序快捷">
+                      <span class="filter-sort-shortcuts-label">排序</span>
+                      <button class="filter-sort-shortcut" type="button" data-sort-shortcut-key="maint" data-sort-shortcut-direction="1" aria-pressed="false" aria-label="依維持率低到高排序">維持率 低→高</button>
+                      <button class="filter-sort-shortcut" type="button" data-sort-shortcut-key="maint" data-sort-shortcut-direction="-1" aria-pressed="false" aria-label="依維持率高到低排序">維持率 高→低</button>
+                    </div>
+                    <button class="filter-group-clear" type="button" data-clear-filter-group="risk" aria-label="清除本組風險篩選">清除本組</button>
+                  </div>
                 </div>
               </div>
 
@@ -1115,7 +1133,14 @@
                     <button id="applyDoubleBreak" class="filter-action filter-toggle-chip" type="button" aria-pressed="false" aria-label="切換月季雙破篩選">月季雙破</button>
                   </div>
                   <span class="filter-hint">啟用月線／季線條件時，20／60 日資料不足者排除。</span>
-                  <div class="filter-popover-footer"><button class="filter-group-clear" type="button" data-clear-filter-group="movingAverage" aria-label="清除本組均線篩選">清除本組</button></div>
+                  <div class="filter-popover-footer">
+                    <div class="filter-sort-shortcuts" data-sort-shortcuts-for="movingAverage" role="group" aria-label="均線排序快捷">
+                      <span class="filter-sort-shortcuts-label">排序</span>
+                      <button class="filter-sort-shortcut" type="button" data-sort-shortcut-key="sma20DeviationPct" data-sort-shortcut-direction="1" aria-pressed="false" aria-label="依月線偏離低到高排序">月線偏離 低→高</button>
+                      <button class="filter-sort-shortcut" type="button" data-sort-shortcut-key="sma60DeviationPct" data-sort-shortcut-direction="1" aria-pressed="false" aria-label="依季線偏離低到高排序">季線偏離 低→高</button>
+                    </div>
+                    <button class="filter-group-clear" type="button" data-clear-filter-group="movingAverage" aria-label="清除本組均線篩選">清除本組</button>
+                  </div>
                 </div>
               </div>
 
@@ -1129,7 +1154,14 @@
                   <label class="filter-check-chip filter-inline-enable" for="marginUsageFilterEnabled"><input id="marginUsageFilterEnabled" type="checkbox" aria-label="啟用融資使用率門檻"><span>融資使用率 ≥ N%</span></label>
                   <label class="filter-number-row" for="marginUsageMin">最低 <input id="marginUsageMin" class="advanced-number-input" type="number" min="0" max="100" step="1" value="40" inputmode="decimal" aria-label="最低融資使用率百分比" disabled>%（含）</label>
                   <span class="filter-hint">啟用後，無融資使用率資料者排除。</span>
-                  <div class="filter-popover-footer"><button class="filter-group-clear" type="button" data-clear-filter-group="marginUsage" aria-label="清除本組融資使用率篩選">清除本組</button></div>
+                  <div class="filter-popover-footer">
+                    <div class="filter-sort-shortcuts" data-sort-shortcuts-for="marginUsage" role="group" aria-label="融資使用率排序快捷">
+                      <span class="filter-sort-shortcuts-label">排序</span>
+                      <button class="filter-sort-shortcut" type="button" data-sort-shortcut-key="marginUsage" data-sort-shortcut-direction="1" aria-pressed="false" aria-label="依融資使用率低到高排序">使用率 低→高</button>
+                      <button class="filter-sort-shortcut" type="button" data-sort-shortcut-key="marginUsage" data-sort-shortcut-direction="-1" aria-pressed="false" aria-label="依融資使用率高到低排序">使用率 高→低</button>
+                    </div>
+                    <button class="filter-group-clear" type="button" data-clear-filter-group="marginUsage" aria-label="清除本組融資使用率篩選">清除本組</button>
+                  </div>
                 </div>
               </div>
 
@@ -1143,7 +1175,14 @@
                   <label class="filter-check-chip filter-inline-enable" for="maintFilterEnabled"><input id="maintFilterEnabled" type="checkbox" aria-label="啟用維持率範圍"><span>維持率範圍</span></label>
                   <div class="filter-number-row"><label for="maintMin">最低</label><input id="maintMin" class="advanced-number-input" type="number" min="0" max="10000" step="1" value="0" inputmode="decimal" aria-label="最低維持率百分比" disabled><span>% ～</span><label for="maintMax">最高</label><input id="maintMax" class="advanced-number-input" type="number" min="0" max="10000" step="1" value="150" inputmode="decimal" aria-label="最高維持率百分比" disabled><span>%</span></div>
                   <span class="filter-hint">上下限輸入顛倒時，自動按小到大套用。</span>
-                  <div class="filter-popover-footer"><button class="filter-group-clear" type="button" data-clear-filter-group="maint" aria-label="清除本組維持率篩選">清除本組</button></div>
+                  <div class="filter-popover-footer">
+                    <div class="filter-sort-shortcuts" data-sort-shortcuts-for="maint" role="group" aria-label="維持率排序快捷">
+                      <span class="filter-sort-shortcuts-label">排序</span>
+                      <button class="filter-sort-shortcut" type="button" data-sort-shortcut-key="maint" data-sort-shortcut-direction="1" aria-pressed="false" aria-label="依維持率低到高排序">維持率 低→高</button>
+                      <button class="filter-sort-shortcut" type="button" data-sort-shortcut-key="maint" data-sort-shortcut-direction="-1" aria-pressed="false" aria-label="依維持率高到低排序">維持率 高→低</button>
+                    </div>
+                    <button class="filter-group-clear" type="button" data-clear-filter-group="maint" aria-label="清除本組維持率篩選">清除本組</button>
+                  </div>
                 </div>
               </div>
 
@@ -1162,7 +1201,14 @@
                   </div>
                   <label class="filter-number-row" for="turnoverMinWan">自訂 <input id="turnoverMinWan" class="advanced-number-input wide-input" type="number" min="0" step="100" value="5000" inputmode="numeric" aria-label="最低成交值，單位萬元" disabled>萬元</label>
                   <span class="filter-hint">啟用時預設 5000 萬；無成交值資料者排除。</span>
-                  <div class="filter-popover-footer"><button class="filter-group-clear" type="button" data-clear-filter-group="turnover" aria-label="清除本組成交值篩選">清除本組</button></div>
+                  <div class="filter-popover-footer">
+                    <div class="filter-sort-shortcuts" data-sort-shortcuts-for="turnover" role="group" aria-label="成交值排序快捷">
+                      <span class="filter-sort-shortcuts-label">排序</span>
+                      <button class="filter-sort-shortcut" type="button" data-sort-shortcut-key="turnover" data-sort-shortcut-direction="1" aria-pressed="false" aria-label="依成交值低到高排序">成交值 低→高</button>
+                      <button class="filter-sort-shortcut" type="button" data-sort-shortcut-key="turnover" data-sort-shortcut-direction="-1" aria-pressed="false" aria-label="依成交值高到低排序">成交值 高→低</button>
+                    </div>
+                    <button class="filter-group-clear" type="button" data-clear-filter-group="turnover" aria-label="清除本組成交值篩選">清除本組</button>
+                  </div>
                 </div>
               </div>
 
@@ -1176,27 +1222,17 @@
                   <label class="filter-check-chip filter-inline-enable" for="volumeFilterEnabled"><input id="volumeFilterEnabled" type="checkbox" aria-label="啟用成交量門檻"><span>成交量 ≥ 門檻</span></label>
                   <label class="filter-number-row" for="volumeMinLots">最低 <input id="volumeMinLots" class="advanced-number-input wide-input" type="number" min="0" step="100" value="1000" inputmode="numeric" aria-label="最低成交量，單位張" disabled>張（1 張＝1000 股）</label>
                   <span class="filter-hint">預設關閉；啟用後無成交股數資料者排除。</span>
-                  <div class="filter-popover-footer"><button class="filter-group-clear" type="button" data-clear-filter-group="volume" aria-label="清除本組成交量篩選">清除本組</button></div>
+                  <div class="filter-popover-footer">
+                    <div class="filter-sort-shortcuts" data-sort-shortcuts-for="volume" role="group" aria-label="成交量排序快捷">
+                      <span class="filter-sort-shortcuts-label">排序</span>
+                      <button class="filter-sort-shortcut" type="button" data-sort-shortcut-key="volume" data-sort-shortcut-direction="1" aria-pressed="false" aria-label="依成交量低到高排序">成交量 低→高</button>
+                      <button class="filter-sort-shortcut" type="button" data-sort-shortcut-key="volume" data-sort-shortcut-direction="-1" aria-pressed="false" aria-label="依成交量高到低排序">成交量 高→低</button>
+                    </div>
+                    <button class="filter-group-clear" type="button" data-clear-filter-group="volume" aria-label="清除本組成交量篩選">清除本組</button>
+                  </div>
                 </div>
               </div>
 
-              <div class="filter-dropdown" data-filter-dropdown>
-                <div class="filter-trigger-wrap">
-                  <button id="kbarFilterTrigger" class="filter-dropdown-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="kbarFilterPopover"><span>當日 K 棒</span><span class="filter-trigger-summary" data-filter-summary="kbar"></span></button>
-                  <button class="filter-trigger-clear" type="button" data-clear-filter-group="kbar" aria-label="清除當日 K 棒篩選" title="清除當日 K 棒篩選" hidden>×</button>
-                </div>
-                <div id="kbarFilterPopover" class="filter-popover panel" role="dialog" aria-labelledby="kbarFilterTrigger" data-filter-group="kbar" hidden>
-                  <p class="filter-popover-title">當日 K 棒（可多選＝聯集）</p>
-                  <div class="filter-chip-list">
-                    <label class="filter-check-chip kbar-red" for="kbarFilterLongred"><input id="kbarFilterLongred" type="checkbox" data-kbar-filter="longred" aria-label="篩選長紅K棒"><span>▮ 長紅</span></label>
-                    <label class="filter-check-chip kbar-red" for="kbarFilterRed"><input id="kbarFilterRed" type="checkbox" data-kbar-filter="red" aria-label="篩選紅K，包含長紅"><span>▲ 紅K（含長紅）</span></label>
-                    <label class="filter-check-chip kbar-black" for="kbarFilterBlack"><input id="kbarFilterBlack" type="checkbox" data-kbar-filter="black" aria-label="篩選黑K，包含長黑"><span>▼ 黑K（含長黑）</span></label>
-                    <label class="filter-check-chip kbar-black" for="kbarFilterLongblack"><input id="kbarFilterLongblack" type="checkbox" data-kbar-filter="longblack" aria-label="篩選長黑K棒"><span>▮ 長黑</span></label>
-                  </div>
-                  <span class="filter-hint">實體漲跌以開盤到收盤計算；長紅／長黑門檻為 ±3%。啟用時無 K 棒資料者排除。</span>
-                  <div class="filter-popover-footer"><button class="filter-group-clear" type="button" data-clear-filter-group="kbar" aria-label="清除本組當日 K 棒篩選">清除本組</button></div>
-                </div>
-              </div>
             </div>
 
             <button id="toggleTopTurnoverPreset" class="advanced-filter-preset turnover-preset" type="button" aria-pressed="false" aria-label="切換成交值前50篩選" title="限縮為融資池內成交值最高 50 檔，固定由高到低排序">成交值前50</button>
@@ -1262,7 +1298,7 @@
             </div>
             <div class="detail-side cockpit-right-bay">
               <section class="cockpit-signal-bay" aria-label="融資使用率、月線與季線">
-                <article class="primary-signal usage-signal" id="detailMarginUsageCard" title="融資餘額 ÷ 融資限額；越高代表借錢押注越滿、籌碼越虛">
+                <article class="primary-signal usage-signal" id="detailMarginUsageCard" title="融資使用率越高，代表借錢押注越滿、籌碼越虛">
                   <p class="signal-label">融資使用率<small>餘額占限額</small></p>
                   <strong class="signal-value" id="detailMarginUsage">—/N/A</strong>
                   <span id="detailMarginUsageFlag" class="signal-state margin-usage-flag" hidden>偏高・≥ 40%</span>
@@ -1427,7 +1463,7 @@
         turnoverEnabled:false, turnoverMin:50000000,
         volumeEnabled:false, volumeMinLots:1000
       });
-      const defaultAdvancedFilters = () => ({ ...ADVANCED_FILTER_DEFAULTS, risks:[], kbars:[] });
+      const defaultAdvancedFilters = () => ({ ...ADVANCED_FILTER_DEFAULTS, risks:[] });
       const KBAR = Object.freeze({
         longred:Object.freeze({ label:'長紅', icon:'▮' }),
         red:Object.freeze({ label:'紅K', icon:'▲' }),
@@ -1454,7 +1490,7 @@
         if (key === 'normal') return `${label} ${RISK.warning}–${RISK.safe}`;
         return `${label} >${RISK.safe}`;
       };
-      const methodNoteText = () => `維持率 = 收盤 ÷（融資成本 × 0.6）× 100。門檻線：${RISK.marginCall}% 追繳、${RISK.initial}% 初始。`;
+      const methodNoteText = () => `門檻：${RISK.marginCall}% 追繳・${RISK.initial}% 初始；數字越高，安全墊越厚。`;
 
       function withMovingAverages(row) {
         const values = app.source?.[row.stock.symbol]?.close;
@@ -2004,7 +2040,7 @@
         const usageHigh = Number.isFinite(row.marginUsage) && row.marginUsage >= HIGH_MARGIN_USAGE_THRESHOLD; const usageMissing = !Number.isFinite(row.marginUsage); const usageCard = $('#detailMarginUsageCard');
         usageCard.className = `primary-signal usage-signal ${usageHigh ? 'is-high' : usageMissing ? 'is-missing' : ''}`;
         $('#detailMarginUsage').textContent = marginUsageText(row); $('#detailMarginUsageFlag').hidden = false; $('#detailMarginUsageFlag').textContent = usageMissing ? 'N/A・資料缺值' : usageHigh ? '偏高・≥ 40%' : '一般・< 40%';
-        $('#detailMarginUsageHint').textContent = Number.isFinite(row.marginUsage) ? `融資餘額 ${fmt(row.marginBalance,0)} ÷ 限額 ${fmt(row.marginQuota,0)}` : '融資餘額或限額資料不足';
+        $('#detailMarginUsageHint').textContent = Number.isFinite(row.marginUsage) ? `融資餘額 ${fmt(row.marginBalance,0)}・融資限額 ${fmt(row.marginQuota,0)}` : '融資餘額或限額資料不足';
         const month = monthInfo(row); const monthSignal = $('#detailSma20'); monthSignal.className = `primary-signal ma-signal is-${month.side}`;
         monthSignal.innerHTML = Number.isFinite(row.sma20)
           ? `<p class="signal-label">月線（20 日均線）<small>均價 ${fmt(row.sma20)}</small></p><strong class="signal-value">${monthTagText(row,2)}</strong><span class="signal-state">${month.status}・偏離 ${fmtPct(row.sma20DeviationPct,2,true)}</span>`
@@ -2014,7 +2050,7 @@
           ? `<p class="signal-label">季線（60 日均線）<small>均價 ${fmt(row.sma60)}</small></p><strong class="signal-value">${seasonSignalText(row,2)}</strong><span class="signal-state">${season.status}・偏離 ${fmtPct(row.sma60DeviationPct,2,true)}</span>`
           : `<p class="signal-label">季線（60 日均線）<small>${row.sma60Count || 0}/60 筆</small></p><strong class="signal-value">資料不足</strong><span class="signal-state">不足 60 筆</span>`;
         $('#cockpitScenarioMaintValue').textContent = fmtPct(projected,1); $('#cockpitScenarioTransition').textContent = `${currentInfo.label} → ${projectedInfo.label}`;
-        $('#stockScenarioNote').textContent = `情境：${fmtPct(app.scenarioPct,1,true)} · M′ = M × (1 + r/100)`;
+        $('#stockScenarioNote').textContent = `股價變動情境：${fmtPct(app.scenarioPct,1,true)}`;
         $('#currentMaintValue').textContent = fmtPct(row.maint,1); $('#currentMaintSub').textContent = `現況 · ${currentInfo.label}`; $('#currentMaintSub').style.color = currentVisual.color;
         $('#projectedMaintCard').style.setProperty('--scenario-color', projectedVisual.color); $('#projectedMaintCard').style.setProperty('--scenario-bg', projectedVisual.bg);
         $('#projectedMaintValue').textContent = fmtPct(projected,1); $('#projectedMaintSub').textContent = `${fmtPct(app.scenarioPct,1,true)} 後 · ${projectedInfo.label}`; $('#projectedMaintSub').style.color = projectedVisual.color;
@@ -2090,17 +2126,6 @@
       function meetsMinimum(value, minimum) {
         return Number.isFinite(value) && Number.isFinite(minimum) && value >= minimum;
       }
-      function matchesKbarFilters(kbar, selected) {
-        if (!selected.length) return true;
-        if (!Object.hasOwn(KBAR, kbar)) return false;
-        const accepted = new Set();
-        selected.forEach((key) => {
-          if (key === 'red') { accepted.add('red'); accepted.add('longred'); }
-          else if (key === 'black') { accepted.add('black'); accepted.add('longblack'); }
-          else accepted.add(key);
-        });
-        return accepted.has(kbar);
-      }
       function matchesAdvancedFilters(row, filters = app.advancedFilters) {
         if (filters.risks.length && !filters.risks.includes(row.risk.key)) return false;
         if (filters.month === 'above' && row.aboveSMA20 !== true) return false;
@@ -2114,7 +2139,6 @@
         }
         if (filters.turnoverEnabled && !meetsMinimum(row.turnover, filters.turnoverMin)) return false;
         if (filters.volumeEnabled && !meetsMinimum(row.volume, filters.volumeMinLots * 1000)) return false;
-        if (!matchesKbarFilters(row.kbar, filters.kbars)) return false;
         return true;
       }
       function topTurnoverRows() {
@@ -2148,8 +2172,7 @@
           marginUsage:{ active:filters.marginUsageEnabled, summary:`≥${fmt(filters.marginUsageMin,0)}%` },
           maint:{ active:filters.maintEnabled, summary:`${fmt(maintBounds.min,0)}–${fmt(maintBounds.max,0)}%` },
           turnover:{ active:filters.turnoverEnabled, summary:`≥${turnoverText}` },
-          volume:{ active:filters.volumeEnabled, summary:`≥${fmt(filters.volumeMinLots,0)}張` },
-          kbar:{ active:filters.kbars.length > 0, summary:`×${filters.kbars.length}` }
+          volume:{ active:filters.volumeEnabled, summary:`≥${fmt(filters.volumeMinLots,0)}張` }
         };
         $$('[data-filter-summary]').forEach((summary) => {
           const state = states[summary.dataset.filterSummary];
@@ -2190,7 +2213,6 @@
         $('#volumeFilterEnabled').checked = filters.volumeEnabled;
         $('#volumeMinLots').value = filters.volumeMinLots;
         $('#volumeMinLots').disabled = !filters.volumeEnabled;
-        $$('[data-kbar-filter]').forEach((input) => { input.checked = filters.kbars.includes(input.dataset.kbarFilter); });
         const doubleBreakActive = filters.month === 'below' && filters.season === 'below';
         $('#applyDoubleBreak').setAttribute('aria-pressed', String(doubleBreakActive));
         $('#applyDoubleBreak').setAttribute('aria-label', doubleBreakActive ? '取消月季雙破篩選' : '套用月季雙破篩選');
@@ -2210,8 +2232,7 @@
           turnoverEnabled:$('#turnoverFilterEnabled').checked,
           turnoverMin:boundedInputValue('#turnoverMinWan', previous.turnoverMin / 10000, 0, 100000000) * 10000,
           volumeEnabled:$('#volumeFilterEnabled').checked,
-          volumeMinLots:boundedInputValue('#volumeMinLots', previous.volumeMinLots, 0, 100000000),
-          kbars:$$('[data-kbar-filter]:checked').map((input) => input.dataset.kbarFilter)
+          volumeMinLots:boundedInputValue('#volumeMinLots', previous.volumeMinLots, 0, 100000000)
         };
       }
       function renderAdvancedFilterSummary(rows) {
@@ -2228,7 +2249,6 @@
         }
         if (filters.turnoverEnabled) conditions.push({ key:'turnover', label:`成交值 ≥ ${fmtTurnover(filters.turnoverMin).replace('成交值 ','')}` });
         if (filters.volumeEnabled) conditions.push({ key:'volume', label:`成交量 ≥ ${fmt(filters.volumeMinLots,0)} 張` });
-        filters.kbars.forEach((key) => conditions.push({ key:`kbar:${key}`, label:`K棒：${kbarInfo(key).label}` }));
         if (app.topTurnoverOnly) conditions.push({ key:'topTurnover', label:'成交值前50' });
         if (app.query) conditions.push({ key:'query', label:`搜尋：${app.query}` });
         const scopeCandidates = app.topTurnoverOnly ? topTurnoverRows() : app.rows;
@@ -2237,7 +2257,6 @@
         if (filters.marginUsageEnabled) missing.push(['融資使用率', searchedCandidates.filter((row) => !Number.isFinite(row.marginUsage)).length]);
         if (filters.turnoverEnabled) missing.push(['成交值', searchedCandidates.filter((row) => !Number.isFinite(row.turnover)).length]);
         if (filters.volumeEnabled) missing.push(['成交量', searchedCandidates.filter((row) => !Number.isFinite(row.volume)).length]);
-        if (filters.kbars.length) missing.push(['K棒', searchedCandidates.filter((row) => !Object.hasOwn(KBAR, row.kbar)).length]);
         $('#advancedFilterCount').textContent = rows.length;
         $('#advancedFilters').dataset.activeCount = String(conditions.length);
         const tagSummary = conditions.length
@@ -2274,7 +2293,6 @@
         if (group === 'maint') filters.maintEnabled = false;
         if (group === 'turnover') filters.turnoverEnabled = false;
         if (group === 'volume') filters.volumeEnabled = false;
-        if (group === 'kbar') filters.kbars = [];
         app.advancedFilters = filters;
         syncAdvancedFilterControls();
         renderFilteredSelection();
@@ -2283,9 +2301,6 @@
         if (condition.startsWith('risk:')) {
           const risk = condition.slice('risk:'.length);
           app.advancedFilters = { ...app.advancedFilters, risks:app.advancedFilters.risks.filter((key) => key !== risk) };
-        } else if (condition.startsWith('kbar:')) {
-          const kbar = condition.slice('kbar:'.length);
-          app.advancedFilters = { ...app.advancedFilters, kbars:app.advancedFilters.kbars.filter((key) => key !== kbar) };
         } else if (condition === 'month') app.advancedFilters = { ...app.advancedFilters, month:'all' };
         else if (condition === 'season') app.advancedFilters = { ...app.advancedFilters, season:'all' };
         else if (condition === 'marginUsage') app.advancedFilters = { ...app.advancedFilters, marginUsageEnabled:false };
@@ -2367,7 +2382,15 @@
       }
       function sortDirectionText(key, direction) {
         if (key === 'symbol') return direction === 1 ? 'A→Z' : 'Z→A';
+        if (key === 'kbar') return direction === -1 ? '紅→黑' : '黑→紅';
         return direction === 1 ? '低→高' : '高→低';
+      }
+      function setSort(key, direction) {
+        if (app.topTurnoverOnly) return;
+        app.sort = { key, direction:direction === -1 ? -1 : 1 };
+        app.page = 1;
+        renderCards();
+        renderTable();
       }
       function sortValue(row, key) {
         if (key === 'riskOrder') return row.risk.key === 'unknown' ? null : row.risk.order;
@@ -2400,9 +2423,18 @@
         const select = $('#sortSelect');
         const direction = $('#sortDirection');
         if (!select || !direction) return;
-        select.value = app.topTurnoverOnly ? 'turnover' : app.sort.key;
+        const effectiveKey = app.topTurnoverOnly ? 'turnover' : app.sort.key;
+        const effectiveDirection = app.topTurnoverOnly ? -1 : app.sort.direction;
+        select.value = effectiveKey;
         select.disabled = app.topTurnoverOnly;
         direction.disabled = app.topTurnoverOnly;
+        $$('[data-sort-shortcut-key]').forEach((button) => {
+          const active = button.dataset.sortShortcutKey === effectiveKey
+            && Number(button.dataset.sortShortcutDirection) === effectiveDirection;
+          button.disabled = app.topTurnoverOnly;
+          button.classList.toggle('is-active', active);
+          button.setAttribute('aria-pressed', String(active));
+        });
         if (app.topTurnoverOnly) {
           direction.textContent = '↓ 高→低';
           direction.setAttribute('aria-label', '成交值前50固定由高到低排序');
@@ -2697,7 +2729,7 @@
           if (event.target.checked) $(oppositeSelector).checked = false;
           applyAdvancedFilters();
         }));
-        $$('[data-risk-filter], #marginUsageFilterEnabled, #maintFilterEnabled, #turnoverFilterEnabled, #volumeFilterEnabled, [data-kbar-filter]').forEach((input) => input.addEventListener('change', () => applyAdvancedFilters()));
+        $$('[data-risk-filter], #marginUsageFilterEnabled, #maintFilterEnabled, #turnoverFilterEnabled, #volumeFilterEnabled').forEach((input) => input.addEventListener('change', () => applyAdvancedFilters()));
         $$('#marginUsageMin, #maintMin, #maintMax, #turnoverMinWan, #volumeMinLots').forEach((input) => {
           input.addEventListener('input', () => applyAdvancedFilters(false));
           input.addEventListener('change', () => applyAdvancedFilters(true));
@@ -2721,16 +2753,16 @@
         });
         $('#sortSelect').addEventListener('change', (event) => {
           const option = event.target.selectedOptions[0];
-          app.sort = { key:option.dataset.sortKey, direction:Number(option.dataset.defaultDirection) || 1 };
-          app.page = 1;
-          renderCards();
-          renderTable();
+          setSort(option.dataset.sortKey, Number(option.dataset.defaultDirection));
         });
+        $$('[data-sort-shortcut-key]').forEach((button) => button.addEventListener('click', () => {
+          setSort(button.dataset.sortShortcutKey, Number(button.dataset.sortShortcutDirection));
+        }));
         $('#applyHighRiskAttentionPreset').addEventListener('click', applyHighRiskAttentionPreset);
         $('#applyBearishHighMarginPreset').addEventListener('click', applyBearishHighMarginPreset);
         $('#applyDoubleBreak').addEventListener('click', applyDoubleBreak);
         $('#clearAdvancedFilters').addEventListener('click', clearAdvancedFilters);
-        $('#sortDirection').addEventListener('click', () => { app.sort={ key:app.sort.key, direction:-app.sort.direction }; app.page=1; renderCards(); renderTable(); });
+        $('#sortDirection').addEventListener('click', () => setSort(app.sort.key, -app.sort.direction));
         $('#pagePrev').addEventListener('click', () => { if (app.page > 1) { app.page -= 1; renderTable(false); } });
         $('#pageNext').addEventListener('click', () => { app.page += 1; renderTable(false); });
         $('#toggleTopTurnoverPreset').addEventListener('click', toggleTopTurnoverPreset);
