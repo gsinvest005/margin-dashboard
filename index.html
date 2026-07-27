@@ -912,7 +912,7 @@
     .scenario-range { height:44px; }
     .chart { min-height:144px; touch-action:pan-y; }
     .chart-tooltip, .histogram-tooltip { max-width:calc(100vw - 16px); max-height:calc(100vh - 16px); overflow:auto; }
-    .ranking-toolbar { min-width:0; }
+    .ranking-toolbar { z-index:auto; min-width:0; }
     .filter-sort-panel { min-width:0; margin-block:12px 16px; }
     .filter-toolbar-row { position:relative; flex-wrap:nowrap; max-width:100%; padding:3px 0 8px; overflow-x:auto; overscroll-behavior-inline:contain; scrollbar-width:thin; -webkit-overflow-scrolling:touch; }
     .filter-toolbar-label, .filter-dropdown, .advanced-filter-preset, .filter-toolbar-count { flex:0 0 auto; }
@@ -1074,7 +1074,7 @@
             <button id="exportCsv" class="export" type="button" aria-label="匯出目前篩選與排序結果 CSV">匯出目前結果 CSV</button>
           </div>
         </div>
-        <section id="advancedFilters" class="filter-sort-panel" data-filter-ui-version="chip-actions-v2" aria-labelledby="filterPanelTitle">
+        <section id="advancedFilters" class="filter-sort-panel" data-filter-ui-version="chip-actions-v3-mobile-sheet-stack" aria-labelledby="filterPanelTitle">
           <div class="filter-toolbar-row">
             <span id="filterPanelTitle" class="filter-toolbar-label">篩選與排序</span>
             <select id="sortSelect" class="filter-sort-select" aria-label="排行排序欄位">
