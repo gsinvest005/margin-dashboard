@@ -506,6 +506,8 @@
     .ladder-rate, .ladder-maint { font-family:var(--mono); font-variant-numeric:tabular-nums; }
     .ladder-maint { color:var(--ink); font-weight:650; }
     .scenario-flag { justify-self:end; padding:4px 7px; border-radius:999px; color:var(--risk-color); background:var(--risk-bg); font-size:11px; font-weight:900; white-space:nowrap; }
+    .site-footer { box-sizing:border-box; width:100%; margin-top:20px; padding:18px 4px 0; border-top:1px solid var(--line); color:var(--faint); font-size:11px; line-height:1.65; text-align:center; }
+    .site-footer p { margin:0; }
 
 
     @keyframes fade-up { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
@@ -1231,6 +1233,11 @@
       </div>
       <p id="histogramSummary" class="histogram-summary">—</p>
     </section>
+
+    <footer class="site-footer" aria-label="資料來源、版權與免責聲明">
+      <p>本儀表板為自動化研究工具產出・資料日期 <span id="footerDataDate">—</span>・數據為台灣證交所/櫃買中心公開資料之衍生推估</p>
+      <p>僅供研究參考,非投資建議;著作權利保留,未經同意請勿轉載重製</p>
+    </footer>
   </main>
 
   <script>
@@ -2493,6 +2500,7 @@
         });
       }
       function init() {
+        $('#footerDataDate').textContent = fmtDate(DATA?.meta?.updated);
         $('#refreshData').addEventListener('click', refreshDashboard);
         if (!app.stocks.length || !app.dates.length) { document.querySelector('.shell').innerHTML = '<section class="loading"><p><strong>尚無可顯示資料</strong><br>請先執行 generate.py 產生儀表板資料。</p></section>'; return; }
         app.marketMaintDates = latestMaintDatesByMarket(); app.rows = app.stocks.map(metricFor).map(withMovingAverages); app.marginUniverse = app.rows.filter((row) => Number.isFinite(row.maint) && row.maint > 0); app.selected = app.rows[0]?.stock.symbol || null; $('#updatedDate').textContent = marketDataDateText();
