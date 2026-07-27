@@ -717,10 +717,14 @@
   .filter-toolbar-row .sort-direction:focus-visible { color:var(--amber); outline:2px solid rgba(180,83,9,.30); outline-offset:1px; }
   .filter-dropdowns { display:contents; }
   .filter-dropdown { position:relative; min-width:0; }
-  .filter-dropdown-trigger { display:inline-flex; align-items:center; gap:5px; height:36px; padding:0 9px; cursor:pointer; white-space:nowrap; }
-  .filter-dropdown-trigger::after { color:var(--faint); content:"▾"; font:800 14px/1 var(--mono); transition:transform .18s ease,color .18s ease; }
+  .filter-trigger-wrap { position:relative; display:inline-flex; max-width:100%; }
+  .filter-dropdown-trigger { position:relative; display:inline-flex; align-items:center; gap:5px; height:36px; padding:0 48px 0 9px; cursor:pointer; white-space:nowrap; }
+  .filter-dropdown-trigger::after { position:absolute; right:9px; color:var(--faint); content:"▾"; font:800 14px/1 var(--mono); transition:transform .18s ease,color .18s ease; }
   .filter-dropdown-trigger[aria-expanded="true"]::after { color:var(--amber); transform:rotate(180deg); }
   .filter-dropdown-trigger.is-active { border-color:rgba(180,83,9,.62); background:var(--amber-bg); color:var(--amber); }
+  .filter-trigger-clear { position:absolute; top:50%; right:25px; z-index:1; display:grid; place-items:center; width:20px; height:24px; padding:0; transform:translateY(-50%); border:0; border-radius:3px; background:transparent; color:var(--amber); font:900 16px/1 var(--mono); cursor:pointer; transition:background .18s ease,color .18s ease; }
+  .filter-trigger-clear[hidden] { display:none; }
+  .filter-trigger-clear:hover, .filter-trigger-clear:focus-visible { background:rgba(180,83,9,.13); color:#8A3E07; outline:1px solid rgba(180,83,9,.34); }
   .filter-trigger-summary:empty { display:none; }
   .filter-trigger-summary { color:var(--amber); font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:850; }
   .filter-popover { position:absolute; top:calc(100% + 7px); left:0; z-index:30; box-sizing:border-box; width:max-content; min-width:260px; max-width:min(360px,calc(100vw - 28px)); max-height:calc(100vh - 28px); padding:13px; overflow:auto; border:1px solid var(--line); border-radius:6px; background:var(--surface); box-shadow:var(--shadow); }
@@ -728,24 +732,34 @@
   .filter-dropdown.is-align-end .filter-popover { right:0; left:auto; }
   .filter-dropdown.is-above .filter-popover { top:auto; bottom:calc(100% + 7px); }
   .filter-popover-title { margin:0 0 9px; color:var(--ink); font-size:14px; font-weight:850; }
-  .filter-chip-list, .threshold-quick { display:flex; align-items:center; flex-wrap:wrap; gap:5px 10px; }
+  .filter-chip-list, .threshold-quick { display:flex; align-items:center; flex-wrap:wrap; gap:7px; }
   .filter-check-chip { position:relative; display:inline-flex; }
   .filter-check-chip input { position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; }
-  .filter-check-chip > span { display:inline-flex; align-items:center; min-height:36px; padding:3px 2px; border:0; background:transparent; color:var(--muted); font-size:14px; font-weight:750; line-height:1.25; cursor:pointer; transition:color .18s ease,text-decoration-color .18s ease; }
-  .filter-check-chip input:checked + span { color:var(--amber); text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:4px; }
-  .filter-check-chip input:focus-visible + span { outline:2px solid var(--amber); outline-offset:2px; }
-  .risk-filter-chip.risk-danger input:checked + span, .risk-filter-chip.risk-warn input:checked + span { color:var(--danger); }
-  .risk-filter-chip.risk-normal input:checked + span { color:var(--normal); }
-  .risk-filter-chip.risk-safe input:checked + span { color:var(--safe); }
-  .filter-inline-enable { display:flex; align-items:center; min-height:36px; gap:7px; color:var(--ink); font-size:14px; font-weight:800; cursor:pointer; }
-  .filter-inline-enable input { accent-color:var(--amber); }
+  .filter-check-chip > span { display:inline-flex; align-items:center; box-sizing:border-box; min-height:36px; padding:8px 10px; border:1px solid var(--line); border-radius:4px; background:var(--surface); color:var(--muted); font-size:14px; font-weight:750; line-height:1.25; cursor:pointer; transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease; }
+  .filter-check-chip > span::before { flex:0 0 auto; color:currentColor; content:""; font:900 14px/1 var(--mono); }
+  .filter-check-chip:hover > span { border-color:var(--amber); color:var(--amber); }
+  .filter-check-chip input:checked + span { border-color:var(--filter-chip-color,var(--amber)); background:var(--filter-chip-bg,rgba(180,83,9,.10)); color:var(--filter-chip-color,var(--amber)); box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--filter-chip-color,var(--amber)) 16%,transparent); }
+  .filter-check-chip input:checked + span::before { margin-right:5px; content:"✓"; }
+  .filter-check-chip input:focus-visible + span { border-color:var(--filter-chip-color,var(--amber)); outline:2px solid color-mix(in srgb,var(--filter-chip-color,var(--amber)) 30%,transparent); outline-offset:2px; }
+  .risk-filter-chip.risk-danger { --filter-chip-color:var(--danger); --filter-chip-bg:rgba(217,45,32,.10); }
+  .risk-filter-chip.risk-warn { --filter-chip-color:var(--amber); --filter-chip-bg:rgba(180,83,9,.10); }
+  .risk-filter-chip.risk-normal { --filter-chip-color:var(--normal); --filter-chip-bg:rgba(53,56,205,.08); }
+  .risk-filter-chip.risk-safe { --filter-chip-color:var(--safe); --filter-chip-bg:rgba(6,118,71,.10); }
+  .kbar-red { --filter-chip-color:var(--danger); --filter-chip-bg:rgba(217,45,32,.10); }
+  .kbar-black { --filter-chip-color:var(--safe); --filter-chip-bg:rgba(6,118,71,.10); }
+  .filter-inline-enable { margin-bottom:2px; }
   .filter-number-row { display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:8px; color:var(--muted); font-size:14px; }
   .filter-number-row .advanced-number-input { width:88px; height:36px; border-radius:4px; font-size:14px; }
   .filter-number-row .wide-input { width:112px; }
   .filter-hint { display:block; margin-top:7px; color:var(--faint); font-size:12px; line-height:1.45; }
   .threshold-quick { margin-top:7px; }
-  .filter-action, .threshold-quick button { min-height:36px; padding:3px 1px; border:0; background:transparent; color:var(--amber); font-size:14px; font-weight:800; cursor:pointer; text-decoration:underline; text-decoration-color:transparent; text-underline-offset:3px; transition:color .18s ease,text-decoration-color .18s ease; }
-  .filter-action:hover, .filter-action:focus-visible, .threshold-quick button:hover, .threshold-quick button:focus-visible, .threshold-quick button.is-active { color:var(--amber); outline:0; text-decoration-color:currentColor; }
+  .filter-action, .threshold-quick button { box-sizing:border-box; min-height:36px; padding:6px 9px; border:1px solid var(--line); border-radius:4px; background:var(--surface); color:var(--muted); font-size:14px; font-weight:800; cursor:pointer; transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease; }
+  .filter-action:hover, .filter-action:focus-visible, .threshold-quick button:hover, .threshold-quick button:focus-visible { border-color:var(--amber); color:var(--amber); outline:0; }
+  .threshold-quick button.is-active { border-color:var(--amber); background:rgba(180,83,9,.10); color:var(--amber); box-shadow:inset 0 0 0 1px rgba(180,83,9,.08); }
+  #applyDoubleBreak[aria-pressed="true"] { border-color:var(--amber); background:var(--amber); color:#fff; box-shadow:0 0 0 3px rgba(180,83,9,.12); }
+  .filter-popover-footer { display:flex; justify-content:flex-end; margin-top:11px; padding-top:9px; border-top:1px solid var(--line); }
+  .filter-group-clear { min-height:32px; padding:4px 8px; border:1px solid transparent; border-radius:4px; background:transparent; color:var(--muted); font-size:12px; font-weight:800; cursor:pointer; transition:background .18s ease,border-color .18s ease,color .18s ease; }
+  .filter-group-clear:hover, .filter-group-clear:focus-visible { border-color:var(--amber); background:rgba(180,83,9,.06); color:var(--amber); outline:0; }
   .advanced-filter-preset, .advanced-filter-clear { min-height:36px; padding:4px 6px; border:0; background:transparent; color:var(--amber); font-size:14px; font-weight:800; line-height:1.25; cursor:pointer; text-decoration:underline; text-decoration-color:transparent; text-underline-offset:4px; transition:color .18s ease,text-decoration-color .18s ease; }
   .advanced-filter-clear { color:var(--muted); }
   .advanced-filter-preset:hover, .advanced-filter-preset:focus-visible, .advanced-filter-clear:hover, .advanced-filter-clear:focus-visible { color:var(--amber); outline:0; text-decoration-color:currentColor; }
@@ -753,10 +767,14 @@
   .advanced-filter-preset.turnover-preset.is-active { color:var(--normal); text-decoration-color:currentColor; }
   .filter-toolbar-count { margin-left:auto; color:var(--faint); font-size:14px; white-space:nowrap; }
   .filter-toolbar-count b { margin:0 2px; color:var(--ink); font:800 14px var(--mono); font-variant-numeric:tabular-nums; }
-  .filter-summary-row { margin-top:7px; }
-  .filter-summary-row .advanced-filter-summary { max-width:100%; }
-  .kbar-red input:checked + span { color:var(--danger); }
-  .kbar-black input:checked + span { color:var(--safe); }
+  .filter-summary-row { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-top:9px; }
+  .filter-summary-row .advanced-filter-summary { display:flex; flex:1 1 auto; align-items:center; flex-wrap:wrap; gap:6px; min-height:32px; max-width:100%; }
+  .filter-summary-empty, .filter-summary-lead { color:var(--faint); font-size:13px; }
+  .filter-summary-tag { display:inline-flex; align-items:center; min-height:28px; padding:2px 3px 2px 8px; border:1px solid rgba(180,83,9,.36); border-radius:999px; background:rgba(180,83,9,.08); color:var(--amber); font-size:12px; font-weight:800; }
+  .filter-summary-remove { display:grid; place-items:center; width:23px; height:23px; margin-left:3px; padding:0; border:0; border-radius:999px; background:transparent; color:inherit; font:900 14px/1 var(--mono); cursor:pointer; transition:background .18s ease,color .18s ease; }
+  .filter-summary-remove:hover, .filter-summary-remove:focus-visible { background:rgba(180,83,9,.16); color:#8A3E07; outline:0; }
+  .filter-summary-row > .advanced-filter-clear { flex:0 0 auto; min-height:32px; padding:4px 8px; font-size:12px; }
+  .advanced-filter-summary .is-excluded { flex-basis:100%; }
   .ranking-market-data { display:inline-flex; align-items:center; min-height:23px; padding:2px 7px; border:1px solid var(--line); border-radius:999px; color:var(--muted); font:750 10px var(--mono); white-space:nowrap; }
 
   .stock-code { font-size:13px; }
@@ -867,6 +885,7 @@
     .refresh-status { flex:1 1 190px; max-width:none; }
     .filter-toolbar-row { position:relative; }
     .filter-dropdown { position:static; flex:1 1 132px; }
+    .filter-trigger-wrap { width:100%; }
     .filter-dropdown-trigger { justify-content:space-between; width:100%; }
     .filter-popover, .filter-dropdown.is-align-end .filter-popover { right:0; left:0; width:auto; min-width:0; max-width:none; }
     .filter-toolbar-count { margin-left:0; }
@@ -966,7 +985,7 @@
             <button id="exportCsv" class="export" type="button" aria-label="匯出目前篩選與排序結果 CSV">匯出目前結果 CSV</button>
           </div>
         </div>
-        <section id="advancedFilters" class="filter-sort-panel" aria-labelledby="filterPanelTitle">
+        <section id="advancedFilters" class="filter-sort-panel" data-filter-ui-version="chip-actions-v2" aria-labelledby="filterPanelTitle">
           <div class="filter-toolbar-row">
             <span id="filterPanelTitle" class="filter-toolbar-label">篩選與排序</span>
             <select id="sortSelect" class="filter-sort-select" aria-label="排行排序欄位">
@@ -987,58 +1006,77 @@
 
             <div id="advancedFilterControls" class="filter-dropdowns">
               <div class="filter-dropdown" data-filter-dropdown>
-                <button id="riskFilterTrigger" class="filter-dropdown-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="riskFilterPopover"><span>風險</span><span class="filter-trigger-summary" data-filter-summary="risk"></span></button>
-                <div id="riskFilterPopover" class="filter-popover panel" role="dialog" aria-labelledby="riskFilterTrigger" hidden>
+                <div class="filter-trigger-wrap">
+                  <button id="riskFilterTrigger" class="filter-dropdown-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="riskFilterPopover"><span>風險</span><span class="filter-trigger-summary" data-filter-summary="risk"></span></button>
+                  <button class="filter-trigger-clear" type="button" data-clear-filter-group="risk" aria-label="清除風險篩選" title="清除風險篩選" hidden>×</button>
+                </div>
+                <div id="riskFilterPopover" class="filter-popover panel" role="dialog" aria-labelledby="riskFilterTrigger" data-filter-group="risk" hidden>
                   <p class="filter-popover-title">風險等級（可多選；全不勾＝全部）</p>
                   <div class="filter-chip-list">
-                    <label class="filter-check-chip risk-filter-chip risk-danger"><input type="checkbox" data-risk-filter="danger" aria-label="篩選危險，維持率低於130%"><span><span aria-hidden="true">⚠</span>&nbsp;<span data-risk-label="danger"></span></span></label>
-                    <label class="filter-check-chip risk-filter-chip risk-warn"><input type="checkbox" data-risk-filter="warn" aria-label="篩選警戒，維持率130%到150%"><span><span aria-hidden="true">!</span>&nbsp;<span data-risk-label="warn"></span></span></label>
-                    <label class="filter-check-chip risk-filter-chip risk-normal"><input type="checkbox" data-risk-filter="normal" aria-label="篩選正常，維持率150%到200%"><span><span aria-hidden="true">•</span>&nbsp;<span data-risk-label="normal"></span></span></label>
-                    <label class="filter-check-chip risk-filter-chip risk-safe"><input type="checkbox" data-risk-filter="safe" aria-label="篩選安全，維持率高於200%"><span><span aria-hidden="true">✓</span>&nbsp;<span data-risk-label="safe"></span></span></label>
+                    <label class="filter-check-chip risk-filter-chip risk-danger" for="riskFilterDanger"><input id="riskFilterDanger" type="checkbox" data-risk-filter="danger" aria-label="篩選危險，維持率低於130%"><span><span aria-hidden="true">⚠</span>&nbsp;<span data-risk-label="danger"></span></span></label>
+                    <label class="filter-check-chip risk-filter-chip risk-warn" for="riskFilterWarn"><input id="riskFilterWarn" type="checkbox" data-risk-filter="warn" aria-label="篩選警戒，維持率130%到150%"><span><span aria-hidden="true">!</span>&nbsp;<span data-risk-label="warn"></span></span></label>
+                    <label class="filter-check-chip risk-filter-chip risk-normal" for="riskFilterNormal"><input id="riskFilterNormal" type="checkbox" data-risk-filter="normal" aria-label="篩選正常，維持率150%到200%"><span><span aria-hidden="true">•</span>&nbsp;<span data-risk-label="normal"></span></span></label>
+                    <label class="filter-check-chip risk-filter-chip risk-safe" for="riskFilterSafe"><input id="riskFilterSafe" type="checkbox" data-risk-filter="safe" aria-label="篩選安全，維持率高於200%"><span><span aria-hidden="true">◆</span>&nbsp;<span data-risk-label="safe"></span></span></label>
                   </div>
+                  <div class="filter-popover-footer"><button class="filter-group-clear" type="button" data-clear-filter-group="risk" aria-label="清除本組風險篩選">清除本組</button></div>
                 </div>
               </div>
 
               <div class="filter-dropdown" data-filter-dropdown>
-                <button id="movingAverageFilterTrigger" class="filter-dropdown-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="movingAverageFilterPopover"><span>均線</span><span class="filter-trigger-summary" data-filter-summary="movingAverage"></span></button>
-                <div id="movingAverageFilterPopover" class="filter-popover panel" role="dialog" aria-labelledby="movingAverageFilterTrigger" hidden>
+                <div class="filter-trigger-wrap">
+                  <button id="movingAverageFilterTrigger" class="filter-dropdown-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="movingAverageFilterPopover"><span>均線</span><span class="filter-trigger-summary" data-filter-summary="movingAverage"></span></button>
+                  <button class="filter-trigger-clear" type="button" data-clear-filter-group="movingAverage" aria-label="清除均線篩選" title="清除均線篩選" hidden>×</button>
+                </div>
+                <div id="movingAverageFilterPopover" class="filter-popover panel" role="dialog" aria-labelledby="movingAverageFilterTrigger" data-filter-group="movingAverage" hidden>
                   <p class="filter-popover-title">均線位置（同一條線互斥）</p>
                   <div class="filter-chip-list">
-                    <label class="filter-check-chip"><input id="advancedMonthAbove" type="checkbox" aria-label="篩選站上月線"><span>↑ 站上月線</span></label>
-                    <label class="filter-check-chip"><input id="advancedMonthBelow" type="checkbox" aria-label="篩選跌破月線"><span>↓ 跌破月線</span></label>
-                    <label class="filter-check-chip"><input id="advancedSeasonAbove" type="checkbox" aria-label="篩選站上季線"><span>↑ 站上季線</span></label>
-                    <label class="filter-check-chip"><input id="advancedSeasonBelow" type="checkbox" aria-label="篩選跌破季線"><span>↓ 跌破季線</span></label>
-                    <button id="applyDoubleBreak" class="filter-action" type="button" aria-label="一鍵勾選跌破月線與跌破季線">月季雙破</button>
+                    <label class="filter-check-chip" for="advancedMonthAbove"><input id="advancedMonthAbove" type="checkbox" aria-label="篩選站上月線"><span>↑ 站上月線</span></label>
+                    <label class="filter-check-chip" for="advancedMonthBelow"><input id="advancedMonthBelow" type="checkbox" aria-label="篩選跌破月線"><span>↓ 跌破月線</span></label>
+                    <label class="filter-check-chip" for="advancedSeasonAbove"><input id="advancedSeasonAbove" type="checkbox" aria-label="篩選站上季線"><span>↑ 站上季線</span></label>
+                    <label class="filter-check-chip" for="advancedSeasonBelow"><input id="advancedSeasonBelow" type="checkbox" aria-label="篩選跌破季線"><span>↓ 跌破季線</span></label>
+                    <button id="applyDoubleBreak" class="filter-action filter-toggle-chip" type="button" aria-pressed="false" aria-label="切換月季雙破篩選">月季雙破</button>
                   </div>
                   <span class="filter-hint">啟用月線／季線條件時，20／60 日資料不足者排除。</span>
+                  <div class="filter-popover-footer"><button class="filter-group-clear" type="button" data-clear-filter-group="movingAverage" aria-label="清除本組均線篩選">清除本組</button></div>
                 </div>
               </div>
 
               <div class="filter-dropdown" data-filter-dropdown>
-                <button id="marginUsageFilterTrigger" class="filter-dropdown-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="marginUsageFilterPopover"><span>融資使用率</span><span class="filter-trigger-summary" data-filter-summary="marginUsage"></span></button>
-                <div id="marginUsageFilterPopover" class="filter-popover panel" role="dialog" aria-labelledby="marginUsageFilterTrigger" hidden>
+                <div class="filter-trigger-wrap">
+                  <button id="marginUsageFilterTrigger" class="filter-dropdown-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="marginUsageFilterPopover"><span>融資使用率</span><span class="filter-trigger-summary" data-filter-summary="marginUsage"></span></button>
+                  <button class="filter-trigger-clear" type="button" data-clear-filter-group="marginUsage" aria-label="清除融資使用率篩選" title="清除融資使用率篩選" hidden>×</button>
+                </div>
+                <div id="marginUsageFilterPopover" class="filter-popover panel" role="dialog" aria-labelledby="marginUsageFilterTrigger" data-filter-group="marginUsage" hidden>
                   <p class="filter-popover-title">融資使用率</p>
-                  <label class="filter-inline-enable" for="marginUsageFilterEnabled"><input id="marginUsageFilterEnabled" type="checkbox" aria-label="啟用融資使用率門檻">融資使用率 ≥ N%</label>
+                  <label class="filter-check-chip filter-inline-enable" for="marginUsageFilterEnabled"><input id="marginUsageFilterEnabled" type="checkbox" aria-label="啟用融資使用率門檻"><span>融資使用率 ≥ N%</span></label>
                   <label class="filter-number-row" for="marginUsageMin">最低 <input id="marginUsageMin" class="advanced-number-input" type="number" min="0" max="100" step="1" value="40" inputmode="decimal" aria-label="最低融資使用率百分比" disabled>%（含）</label>
                   <span class="filter-hint">啟用後，無融資使用率資料者排除。</span>
+                  <div class="filter-popover-footer"><button class="filter-group-clear" type="button" data-clear-filter-group="marginUsage" aria-label="清除本組融資使用率篩選">清除本組</button></div>
                 </div>
               </div>
 
               <div class="filter-dropdown" data-filter-dropdown>
-                <button id="maintFilterTrigger" class="filter-dropdown-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="maintFilterPopover"><span>維持率</span><span class="filter-trigger-summary" data-filter-summary="maint"></span></button>
-                <div id="maintFilterPopover" class="filter-popover panel" role="dialog" aria-labelledby="maintFilterTrigger" hidden>
+                <div class="filter-trigger-wrap">
+                  <button id="maintFilterTrigger" class="filter-dropdown-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="maintFilterPopover"><span>維持率</span><span class="filter-trigger-summary" data-filter-summary="maint"></span></button>
+                  <button class="filter-trigger-clear" type="button" data-clear-filter-group="maint" aria-label="清除維持率篩選" title="清除維持率篩選" hidden>×</button>
+                </div>
+                <div id="maintFilterPopover" class="filter-popover panel" role="dialog" aria-labelledby="maintFilterTrigger" data-filter-group="maint" hidden>
                   <p class="filter-popover-title">維持率範圍</p>
-                  <label class="filter-inline-enable" for="maintFilterEnabled"><input id="maintFilterEnabled" type="checkbox" aria-label="啟用維持率範圍">維持率範圍</label>
+                  <label class="filter-check-chip filter-inline-enable" for="maintFilterEnabled"><input id="maintFilterEnabled" type="checkbox" aria-label="啟用維持率範圍"><span>維持率範圍</span></label>
                   <div class="filter-number-row"><label for="maintMin">最低</label><input id="maintMin" class="advanced-number-input" type="number" min="0" max="10000" step="1" value="0" inputmode="decimal" aria-label="最低維持率百分比" disabled><span>% ～</span><label for="maintMax">最高</label><input id="maintMax" class="advanced-number-input" type="number" min="0" max="10000" step="1" value="150" inputmode="decimal" aria-label="最高維持率百分比" disabled><span>%</span></div>
                   <span class="filter-hint">上下限輸入顛倒時，自動按小到大套用。</span>
+                  <div class="filter-popover-footer"><button class="filter-group-clear" type="button" data-clear-filter-group="maint" aria-label="清除本組維持率篩選">清除本組</button></div>
                 </div>
               </div>
 
               <div class="filter-dropdown" data-filter-dropdown>
-                <button id="turnoverFilterTrigger" class="filter-dropdown-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="turnoverFilterPopover"><span>成交值</span><span class="filter-trigger-summary" data-filter-summary="turnover"></span></button>
-                <div id="turnoverFilterPopover" class="filter-popover panel" role="dialog" aria-labelledby="turnoverFilterTrigger" hidden>
+                <div class="filter-trigger-wrap">
+                  <button id="turnoverFilterTrigger" class="filter-dropdown-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="turnoverFilterPopover"><span>成交值</span><span class="filter-trigger-summary" data-filter-summary="turnover"></span></button>
+                  <button class="filter-trigger-clear" type="button" data-clear-filter-group="turnover" aria-label="清除成交值篩選" title="清除成交值篩選" hidden>×</button>
+                </div>
+                <div id="turnoverFilterPopover" class="filter-popover panel" role="dialog" aria-labelledby="turnoverFilterTrigger" data-filter-group="turnover" hidden>
                   <p class="filter-popover-title">成交值門檻</p>
-                  <label class="filter-inline-enable" for="turnoverFilterEnabled"><input id="turnoverFilterEnabled" type="checkbox" aria-label="啟用成交值門檻">成交值 ≥ 門檻</label>
+                  <label class="filter-check-chip filter-inline-enable" for="turnoverFilterEnabled"><input id="turnoverFilterEnabled" type="checkbox" aria-label="啟用成交值門檻"><span>成交值 ≥ 門檻</span></label>
                   <div class="threshold-quick" aria-label="成交值門檻快選">
                     <button type="button" data-turnover-min="30000000" aria-pressed="false" aria-label="啟用成交值至少3000萬元">3000萬</button>
                     <button type="button" data-turnover-min="50000000" aria-pressed="false" aria-label="啟用成交值至少5000萬元">5000萬</button>
@@ -1046,30 +1084,39 @@
                   </div>
                   <label class="filter-number-row" for="turnoverMinWan">自訂 <input id="turnoverMinWan" class="advanced-number-input wide-input" type="number" min="0" step="100" value="5000" inputmode="numeric" aria-label="最低成交值，單位萬元" disabled>萬元</label>
                   <span class="filter-hint">啟用時預設 5000 萬；無成交值資料者排除。</span>
+                  <div class="filter-popover-footer"><button class="filter-group-clear" type="button" data-clear-filter-group="turnover" aria-label="清除本組成交值篩選">清除本組</button></div>
                 </div>
               </div>
 
               <div class="filter-dropdown" data-filter-dropdown>
-                <button id="volumeFilterTrigger" class="filter-dropdown-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="volumeFilterPopover"><span>成交量</span><span class="filter-trigger-summary" data-filter-summary="volume"></span></button>
-                <div id="volumeFilterPopover" class="filter-popover panel" role="dialog" aria-labelledby="volumeFilterTrigger" hidden>
+                <div class="filter-trigger-wrap">
+                  <button id="volumeFilterTrigger" class="filter-dropdown-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="volumeFilterPopover"><span>成交量</span><span class="filter-trigger-summary" data-filter-summary="volume"></span></button>
+                  <button class="filter-trigger-clear" type="button" data-clear-filter-group="volume" aria-label="清除成交量篩選" title="清除成交量篩選" hidden>×</button>
+                </div>
+                <div id="volumeFilterPopover" class="filter-popover panel" role="dialog" aria-labelledby="volumeFilterTrigger" data-filter-group="volume" hidden>
                   <p class="filter-popover-title">成交量門檻</p>
-                  <label class="filter-inline-enable" for="volumeFilterEnabled"><input id="volumeFilterEnabled" type="checkbox" aria-label="啟用成交量門檻">成交量 ≥ 門檻</label>
+                  <label class="filter-check-chip filter-inline-enable" for="volumeFilterEnabled"><input id="volumeFilterEnabled" type="checkbox" aria-label="啟用成交量門檻"><span>成交量 ≥ 門檻</span></label>
                   <label class="filter-number-row" for="volumeMinLots">最低 <input id="volumeMinLots" class="advanced-number-input wide-input" type="number" min="0" step="100" value="1000" inputmode="numeric" aria-label="最低成交量，單位張" disabled>張（1 張＝1000 股）</label>
                   <span class="filter-hint">預設關閉；啟用後無成交股數資料者排除。</span>
+                  <div class="filter-popover-footer"><button class="filter-group-clear" type="button" data-clear-filter-group="volume" aria-label="清除本組成交量篩選">清除本組</button></div>
                 </div>
               </div>
 
               <div class="filter-dropdown" data-filter-dropdown>
-                <button id="kbarFilterTrigger" class="filter-dropdown-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="kbarFilterPopover"><span>當日 K 棒</span><span class="filter-trigger-summary" data-filter-summary="kbar"></span></button>
-                <div id="kbarFilterPopover" class="filter-popover panel" role="dialog" aria-labelledby="kbarFilterTrigger" hidden>
+                <div class="filter-trigger-wrap">
+                  <button id="kbarFilterTrigger" class="filter-dropdown-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="kbarFilterPopover"><span>當日 K 棒</span><span class="filter-trigger-summary" data-filter-summary="kbar"></span></button>
+                  <button class="filter-trigger-clear" type="button" data-clear-filter-group="kbar" aria-label="清除當日 K 棒篩選" title="清除當日 K 棒篩選" hidden>×</button>
+                </div>
+                <div id="kbarFilterPopover" class="filter-popover panel" role="dialog" aria-labelledby="kbarFilterTrigger" data-filter-group="kbar" hidden>
                   <p class="filter-popover-title">當日 K 棒（可多選＝聯集）</p>
                   <div class="filter-chip-list">
-                    <label class="filter-check-chip kbar-red"><input type="checkbox" data-kbar-filter="longred" aria-label="篩選長紅K棒"><span>▮ 長紅</span></label>
-                    <label class="filter-check-chip kbar-red"><input type="checkbox" data-kbar-filter="red" aria-label="篩選紅K，包含長紅"><span>▲ 紅K（含長紅）</span></label>
-                    <label class="filter-check-chip kbar-black"><input type="checkbox" data-kbar-filter="black" aria-label="篩選黑K，包含長黑"><span>▼ 黑K（含長黑）</span></label>
-                    <label class="filter-check-chip kbar-black"><input type="checkbox" data-kbar-filter="longblack" aria-label="篩選長黑K棒"><span>▮ 長黑</span></label>
+                    <label class="filter-check-chip kbar-red" for="kbarFilterLongred"><input id="kbarFilterLongred" type="checkbox" data-kbar-filter="longred" aria-label="篩選長紅K棒"><span>▮ 長紅</span></label>
+                    <label class="filter-check-chip kbar-red" for="kbarFilterRed"><input id="kbarFilterRed" type="checkbox" data-kbar-filter="red" aria-label="篩選紅K，包含長紅"><span>▲ 紅K（含長紅）</span></label>
+                    <label class="filter-check-chip kbar-black" for="kbarFilterBlack"><input id="kbarFilterBlack" type="checkbox" data-kbar-filter="black" aria-label="篩選黑K，包含長黑"><span>▼ 黑K（含長黑）</span></label>
+                    <label class="filter-check-chip kbar-black" for="kbarFilterLongblack"><input id="kbarFilterLongblack" type="checkbox" data-kbar-filter="longblack" aria-label="篩選長黑K棒"><span>▮ 長黑</span></label>
                   </div>
                   <span class="filter-hint">實體漲跌以開盤到收盤計算；長紅／長黑門檻為 ±3%。啟用時無 K 棒資料者排除。</span>
+                  <div class="filter-popover-footer"><button class="filter-group-clear" type="button" data-clear-filter-group="kbar" aria-label="清除本組當日 K 棒篩選">清除本組</button></div>
                 </div>
               </div>
             </div>
@@ -1077,11 +1124,11 @@
             <button id="toggleTopTurnoverPreset" class="advanced-filter-preset turnover-preset" type="button" aria-pressed="false" aria-label="切換成交值前50篩選" title="限縮為融資池內成交值最高 50 檔，固定由高到低排序">成交值前50</button>
             <button id="applyHighRiskAttentionPreset" class="advanced-filter-preset" type="button" aria-label="套用一鍵高風險關注預設" title="跌破季線、融資使用率至少40%、維持率不高於150%">一鍵高風險關注</button>
             <button id="applyBearishHighMarginPreset" class="advanced-filter-preset" type="button" aria-label="套用空頭加高融資預設" title="跌破月線與季線、融資使用率至少40%、維持率不高於150%">空頭＋高融資</button>
-            <button id="clearAdvancedFilters" class="advanced-filter-clear" type="button" aria-label="清除搜尋與全部篩選條件">清除全部篩選</button>
             <span class="filter-toolbar-count">符合 <b id="advancedFilterCount">0</b> 檔</span>
           </div>
           <div class="filter-summary-row">
-            <p id="advancedFilterSummary" class="advanced-filter-summary" aria-live="polite" aria-atomic="true">篩選條件未啟用。</p>
+            <div id="advancedFilterSummary" class="advanced-filter-summary" aria-live="polite" aria-atomic="true"><span class="filter-summary-empty">篩選條件未啟用。</span></div>
+            <button id="clearAdvancedFilters" class="advanced-filter-clear" type="button" aria-label="清除搜尋與全部篩選條件">清除全部篩選</button>
           </div>
         </section>
       </div>
@@ -2018,6 +2065,8 @@
           summary.textContent = state.active ? state.summary : '';
           trigger.classList.toggle('is-active', state.active);
           trigger.setAttribute('aria-label', state.active ? `${label}篩選已啟用：${state.summary}` : `${label}篩選未啟用`);
+          const clearButton = trigger.parentElement?.querySelector('.filter-trigger-clear');
+          if (clearButton) clearButton.hidden = !state.active;
         });
       }
       function syncAdvancedFilterControls() {
@@ -2042,11 +2091,15 @@
           const active = filters.turnoverEnabled && Number(button.dataset.turnoverMin) === filters.turnoverMin;
           button.classList.toggle('is-active', active);
           button.setAttribute('aria-pressed', String(active));
+          button.setAttribute('aria-label', active ? `取消成交值至少${button.textContent.trim()}篩選` : `啟用成交值至少${button.textContent.trim()}篩選`);
         });
         $('#volumeFilterEnabled').checked = filters.volumeEnabled;
         $('#volumeMinLots').value = filters.volumeMinLots;
         $('#volumeMinLots').disabled = !filters.volumeEnabled;
         $$('[data-kbar-filter]').forEach((input) => { input.checked = filters.kbars.includes(input.dataset.kbarFilter); });
+        const doubleBreakActive = filters.month === 'below' && filters.season === 'below';
+        $('#applyDoubleBreak').setAttribute('aria-pressed', String(doubleBreakActive));
+        $('#applyDoubleBreak').setAttribute('aria-label', doubleBreakActive ? '取消月季雙破篩選' : '套用月季雙破篩選');
         syncFilterDropdownSummaries();
       }
       function readAdvancedFilterControls() {
@@ -2068,17 +2121,22 @@
         };
       }
       function renderAdvancedFilterSummary(rows) {
-        const filters = app.advancedFilters; const parts = [];
-        if (filters.risks.length) parts.push(`風險＝${filters.risks.map((key) => RISK.bands[key].label).join('／')}`);
-        if (filters.month === 'above') parts.push('站上月線');
-        if (filters.month === 'below') parts.push('跌破月線');
-        if (filters.season === 'above') parts.push('站上季線');
-        if (filters.season === 'below') parts.push('跌破季線');
-        if (filters.marginUsageEnabled) parts.push(`融資使用率 ≥ ${fmtPct(filters.marginUsageMin,1)}`);
-        if (filters.maintEnabled) { const bounds = advancedMaintBounds(filters); parts.push(`維持率 ${fmtPct(bounds.min,1)}–${fmtPct(bounds.max,1)}`); }
-        if (filters.turnoverEnabled) parts.push(`成交值 ≥ ${fmtTurnover(filters.turnoverMin).replace('成交值 ','')}`);
-        if (filters.volumeEnabled) parts.push(`成交量 ≥ ${fmt(filters.volumeMinLots,0)} 張`);
-        if (filters.kbars.length) parts.push(`K棒＝${filters.kbars.map((key) => kbarInfo(key).label).join('／')}`);
+        const filters = app.advancedFilters; const conditions = [];
+        filters.risks.forEach((key) => conditions.push({ key:`risk:${key}`, label:`風險：${RISK.bands[key].label}` }));
+        if (filters.month === 'above') conditions.push({ key:'month', label:'站上月線' });
+        if (filters.month === 'below') conditions.push({ key:'month', label:'跌破月線' });
+        if (filters.season === 'above') conditions.push({ key:'season', label:'站上季線' });
+        if (filters.season === 'below') conditions.push({ key:'season', label:'跌破季線' });
+        if (filters.marginUsageEnabled) conditions.push({ key:'marginUsage', label:`融資使用率 ≥ ${fmtPct(filters.marginUsageMin,1)}` });
+        if (filters.maintEnabled) {
+          const bounds = advancedMaintBounds(filters);
+          conditions.push({ key:'maint', label:`維持率 ${fmtPct(bounds.min,1)}–${fmtPct(bounds.max,1)}` });
+        }
+        if (filters.turnoverEnabled) conditions.push({ key:'turnover', label:`成交值 ≥ ${fmtTurnover(filters.turnoverMin).replace('成交值 ','')}` });
+        if (filters.volumeEnabled) conditions.push({ key:'volume', label:`成交量 ≥ ${fmt(filters.volumeMinLots,0)} 張` });
+        filters.kbars.forEach((key) => conditions.push({ key:`kbar:${key}`, label:`K棒：${kbarInfo(key).label}` }));
+        if (app.topTurnoverOnly) conditions.push({ key:'topTurnover', label:'成交值前50' });
+        if (app.query) conditions.push({ key:'query', label:`搜尋：${app.query}` });
         const scopeCandidates = app.topTurnoverOnly ? topTurnoverRows() : app.rows;
         const searchedCandidates = scopeCandidates.filter((row) => matchesBaseFilters(row));
         const missing = [];
@@ -2087,15 +2145,13 @@
         if (filters.volumeEnabled) missing.push(['成交量', searchedCandidates.filter((row) => !Number.isFinite(row.volume)).length]);
         if (filters.kbars.length) missing.push(['K棒', searchedCandidates.filter((row) => !Object.hasOwn(KBAR, row.kbar)).length]);
         $('#advancedFilterCount').textContent = rows.length;
-        $('#advancedFilters').dataset.activeCount = String(parts.length);
-        const scope = app.topTurnoverOnly ? '成交值前50與搜尋條件' : '搜尋條件';
-        const sortName = app.topTurnoverOnly ? '成交值（高→低、前50）' : `${sortLabel(app.sort.key)}（${sortDirectionText(app.sort.key, app.sort.direction)}）`;
-        const baseSummary = parts.length
-          ? `排序：${escapeHtml(sortName)}；已與${scope} AND 套用：${escapeHtml(parts.join(' ＋ '))}。`
-          : `排序：${escapeHtml(sortName)}；篩選條件未啟用，目前僅套用${scope}。`;
+        $('#advancedFilters').dataset.activeCount = String(conditions.length);
+        const tagSummary = conditions.length
+          ? `<span class="filter-summary-lead">已啟用：</span>${conditions.map(({ key, label }) => `<span class="filter-summary-tag">${escapeHtml(label)}<button class="filter-summary-remove" type="button" data-remove-filter="${escapeHtml(key)}" aria-label="移除${escapeHtml(label)}條件" title="移除${escapeHtml(label)}">×</button></span>`).join('')}`
+          : '<span class="filter-summary-empty">篩選條件未啟用，目前顯示全部融資池。</span>';
         const missingText = missing.filter(([, count]) => count > 0).map(([label, count]) => `無${label} ${count} 檔`).join('、');
         const excludedSummary = missingText ? ` <span class="is-excluded">資料不足排除：${escapeHtml(missingText)}。</span>` : '';
-        $('#advancedFilterSummary').innerHTML = `${baseSummary}${excludedSummary}`;
+        $('#advancedFilterSummary').innerHTML = `${tagSummary}${excludedSummary}`;
       }
       function renderFilteredSelection() {
         app.page = 1;
@@ -2110,12 +2166,52 @@
           renderNoSearchResult();
         }
       }
-      function applyAdvancedFilters() {
-        readAdvancedFilterControls(); syncAdvancedFilterControls(); renderFilteredSelection();
+      function applyAdvancedFilters(syncControls = true) {
+        readAdvancedFilterControls();
+        if (syncControls) syncAdvancedFilterControls();
+        else syncFilterDropdownSummaries();
+        renderFilteredSelection();
+      }
+      function clearFilterGroup(group) {
+        const filters = { ...app.advancedFilters };
+        if (group === 'risk') filters.risks = [];
+        if (group === 'movingAverage') { filters.month = 'all'; filters.season = 'all'; }
+        if (group === 'marginUsage') filters.marginUsageEnabled = false;
+        if (group === 'maint') filters.maintEnabled = false;
+        if (group === 'turnover') filters.turnoverEnabled = false;
+        if (group === 'volume') filters.volumeEnabled = false;
+        if (group === 'kbar') filters.kbars = [];
+        app.advancedFilters = filters;
+        syncAdvancedFilterControls();
+        renderFilteredSelection();
+      }
+      function removeFilterCondition(condition) {
+        if (condition.startsWith('risk:')) {
+          const risk = condition.slice('risk:'.length);
+          app.advancedFilters = { ...app.advancedFilters, risks:app.advancedFilters.risks.filter((key) => key !== risk) };
+        } else if (condition.startsWith('kbar:')) {
+          const kbar = condition.slice('kbar:'.length);
+          app.advancedFilters = { ...app.advancedFilters, kbars:app.advancedFilters.kbars.filter((key) => key !== kbar) };
+        } else if (condition === 'month') app.advancedFilters = { ...app.advancedFilters, month:'all' };
+        else if (condition === 'season') app.advancedFilters = { ...app.advancedFilters, season:'all' };
+        else if (condition === 'marginUsage') app.advancedFilters = { ...app.advancedFilters, marginUsageEnabled:false };
+        else if (condition === 'maint') app.advancedFilters = { ...app.advancedFilters, maintEnabled:false };
+        else if (condition === 'turnover') app.advancedFilters = { ...app.advancedFilters, turnoverEnabled:false };
+        else if (condition === 'volume') app.advancedFilters = { ...app.advancedFilters, volumeEnabled:false };
+        else if (condition === 'topTurnover') app.topTurnoverOnly = false;
+        else if (condition === 'query') {
+          clearTimeout(app.searchTimer);
+          app.query = '';
+          $$('[data-query-input]').forEach((input) => { input.value = ''; });
+        }
+        syncAdvancedFilterControls();
+        syncTopTurnoverPresetControl();
+        renderFilteredSelection();
       }
       function clearAdvancedFilters() {
         app.advancedFilters = defaultAdvancedFilters();
         app.topTurnoverOnly = false;
+        clearTimeout(app.searchTimer);
         app.query = '';
         $$('[data-query-input]').forEach((input) => { input.value = ''; });
         syncAdvancedFilterControls();
@@ -2133,7 +2229,12 @@
         renderFilteredSelection();
       }
       function applyDoubleBreak() {
-        app.advancedFilters = { ...app.advancedFilters, month:'below', season:'below' };
+        const active = app.advancedFilters.month === 'below' && app.advancedFilters.season === 'below';
+        app.advancedFilters = {
+          ...app.advancedFilters,
+          month:active ? 'all' : 'below',
+          season:active ? 'all' : 'below'
+        };
         syncAdvancedFilterControls();
         renderFilteredSelection();
       }
@@ -2471,7 +2572,6 @@
       }
       function bindFilterDropdowns() {
         $$('.filter-dropdown-trigger').forEach((trigger) => {
-          const dropdown = trigger.closest('[data-filter-dropdown]');
           trigger.addEventListener('click', (event) => {
             if (trigger.getAttribute('aria-expanded') === 'true') closeFilterDropdown();
             else openFilterDropdown(trigger, event.detail === 0);
@@ -2480,11 +2580,6 @@
             if (event.key !== 'ArrowDown') return;
             event.preventDefault();
             openFilterDropdown(trigger, true);
-          });
-          dropdown?.addEventListener('focusout', () => {
-            setTimeout(() => {
-              if (trigger.getAttribute('aria-expanded') === 'true' && !dropdown.contains(document.activeElement)) closeFilterDropdown();
-            }, 0);
           });
         });
         document.addEventListener('pointerdown', (event) => {
@@ -2527,13 +2622,28 @@
           if (event.target.checked) $(oppositeSelector).checked = false;
           applyAdvancedFilters();
         }));
-        $$('[data-risk-filter], #marginUsageFilterEnabled, #maintFilterEnabled, #turnoverFilterEnabled, #volumeFilterEnabled, [data-kbar-filter]').forEach((input) => input.addEventListener('change', applyAdvancedFilters));
-        $$('#marginUsageMin, #maintMin, #maintMax, #turnoverMinWan, #volumeMinLots').forEach((input) => input.addEventListener('change', applyAdvancedFilters));
+        $$('[data-risk-filter], #marginUsageFilterEnabled, #maintFilterEnabled, #turnoverFilterEnabled, #volumeFilterEnabled, [data-kbar-filter]').forEach((input) => input.addEventListener('change', () => applyAdvancedFilters()));
+        $$('#marginUsageMin, #maintMin, #maintMax, #turnoverMinWan, #volumeMinLots').forEach((input) => {
+          input.addEventListener('input', () => applyAdvancedFilters(false));
+          input.addEventListener('change', () => applyAdvancedFilters(true));
+        });
         $$('[data-turnover-min]').forEach((button) => button.addEventListener('click', () => {
-          app.advancedFilters = { ...app.advancedFilters, turnoverEnabled:true, turnoverMin:Number(button.dataset.turnoverMin) };
+          const threshold = Number(button.dataset.turnoverMin);
+          const active = app.advancedFilters.turnoverEnabled && app.advancedFilters.turnoverMin === threshold;
+          app.advancedFilters = { ...app.advancedFilters, turnoverEnabled:!active, turnoverMin:threshold };
           syncAdvancedFilterControls();
           renderFilteredSelection();
         }));
+        $$('[data-clear-filter-group]').forEach((button) => button.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          clearFilterGroup(button.dataset.clearFilterGroup);
+        }));
+        $('#advancedFilterSummary').addEventListener('click', (event) => {
+          const removeButton = event.target.closest('[data-remove-filter]');
+          if (!removeButton || !$('#advancedFilterSummary').contains(removeButton)) return;
+          removeFilterCondition(removeButton.dataset.removeFilter);
+        });
         $('#sortSelect').addEventListener('change', (event) => {
           const option = event.target.selectedOptions[0];
           app.sort = { key:option.dataset.sortKey, direction:Number(option.dataset.defaultDirection) || 1 };
